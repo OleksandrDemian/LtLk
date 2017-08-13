@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<players>
+  <player name="Hero">
+    <health value="25" />
+    <stamina value="15" />
+    <gold value="25" />
+    <damage value="5" />
+  </player>
+</players>

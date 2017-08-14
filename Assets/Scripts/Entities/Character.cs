@@ -1,14 +1,14 @@
 ﻿using UnityEngine;
 
-public delegate void CharacterEvent(CharacterEvents cEvent);
-
 public enum CharacterEvents
 {
     HEALTH_CHANGE,
     STAMINA_CHANGE,
     DAMAGE_CHANGE,
     DEAD,
-    TURN_END
+    TURN_END,
+    BATTLE_WON,
+    BATTLE_START
 }
 
 public class Character : Entity
@@ -17,7 +17,7 @@ public class Character : Entity
     protected Attribute damage;
     protected Attribute stamina;
 
-    public CharacterEvent onCharacterStateChange;
+    protected MCharacterController controller;
 
     protected override void Start()
     {
@@ -87,30 +87,26 @@ public class Character : Entity
 
     #region AttributesListeners
 
-    private void OnHealthValueChange(int value, int oldValue)
+    protected virtual void OnHealthValueChange(int value, int oldValue)
     {
-        if (onCharacterStateChange != null)
-            onCharacterStateChange(CharacterEvents.HEALTH_CHANGE);
+        controller.OnHealthValueChange(value, oldValue);
     }
 
-    private void OnDamageValueChange(int value, int oldValue)
+    protected virtual void OnDamageValueChange(int value, int oldValue)
     {
-        if (onCharacterStateChange != null)
-            onCharacterStateChange(CharacterEvents.DAMAGE_CHANGE);
+        controller.OnDamageValueChange(value, oldValue);
     }
 
-    private void OnStaminaValueChange(int value, int oldValue)
+    protected virtual void OnStaminaValueChange(int value, int oldValue)
     {
-        if (onCharacterStateChange != null)
-            onCharacterStateChange(CharacterEvents.STAMINA_CHANGE);
+        controller.OnStaminaValueChange(value, oldValue);
     }
 
     #endregion
 
     public void Death()
     {
-        if (onCharacterStateChange != null)
-            onCharacterStateChange(CharacterEvents.DEAD);
+        controller.CharacterStateListener(CharacterEvents.DEAD);
         gameObject.SetActive(false);
     }
 
@@ -123,11 +119,65 @@ public class Character : Entity
 
     public override void Interact(Entity actor)
     {
-        if (actor.GetType() == typeof(Character))
+        if (actor is Character)
         {
             BattleManager battle = new BattleManager(this, actor as Character);
             battle.StartBattle();
         }
+    }
+
+    public virtual bool IsStealthy()
+    {
+        return false;
+    }
+
+    public virtual void OnBattleStart(Character enemy)
+    {
+        controller.CharacterStateListener(CharacterEvents.BATTLE_START);
+    }
+
+    public virtual void OnBattleTurn(int turnIndex)
+    {
+        stamina.Value--;
+    }
+
+    public virtual void OnBattleEnd(Character enemy)
+    {
+        if (IsAlive())
+        {
+            controller.OnBattleEnd(true, enemy);
+        }
+        else
+        {
+            controller.OnBattleEnd(false, enemy);
+            Death();
+        }
+    }
+
+    public void SetController(MCharacterController controller)
+    {
+        this.controller = controller;
+    }
+
+    public MCharacterController GetController()
+    {
+        return controller;
+    }
+
+    public virtual void ApplyDamage(int amount)
+    {
+        health.Value -= amount;
+    }
+
+    public virtual int CalculateDamage()
+    {
+        int finalDamage = (int)(damage.Value * GetFatigueModifier());
+        return finalDamage > 0 ? finalDamage : 1;
+    }
+
+    private float GetFatigueModifier()
+    {
+        return stamina.Value / (float)stamina.GetMax();
     }
 
     protected override void Update()
@@ -135,10 +185,26 @@ public class Character : Entity
         
     }
 
+    public bool IsAlive()
+    {
+        return health.Value > 0 ? true : false;
+    }
+
     public override void OnTurnEnd()
     {
         base.OnTurnEnd();
-        if (onCharacterStateChange != null)
-            onCharacterStateChange(CharacterEvents.TURN_END);
+        controller.CharacterStateListener(CharacterEvents.TURN_END);
+    }
+
+    public virtual void GenerateLoot(Player player)
+    {
+        int gold = Random.Range(5, 20);
+        player.AddGold(gold);
+        InformationWindow.ShowInformation("Gold!", "You have found " + gold + " gold on " + name);
+    }
+
+    public int GetPower()
+    {
+        return health.Value + damage.Value + stamina.Value;
     }
 }

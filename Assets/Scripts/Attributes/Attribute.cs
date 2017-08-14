@@ -31,6 +31,11 @@ public class Attribute
         }
     }
 
+    public int GetMax()
+    {
+        return maxValue;
+    }
+
     public void ResetValue()
     {
         Value = maxValue;
@@ -73,8 +78,7 @@ public class Attribute
     public void SetMax(int value)
     {
         maxValue = value;
-        defaultValue = value;
-        Value = value;
+        //defaultValue = value;
     }
 
     public void IncreaseDefaultValue(int amount)

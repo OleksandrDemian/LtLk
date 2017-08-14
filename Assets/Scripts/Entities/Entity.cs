@@ -44,6 +44,18 @@ public abstract class Entity : MonoBehaviour
         }
     }
 
+    public int Distance(Entity to)
+    {
+        int dx = to.X - X;
+        int dy = to.Y - Y;
+        return Mathf.Abs(dx) + Mathf.Abs(dy);
+    }
+
     protected abstract void Update();
     public abstract void Interact(Entity actor);
+
+    protected static bool Success(int probability)
+    {
+        return Random.Range(0, 100) < probability ? true : false;
+    }
 }

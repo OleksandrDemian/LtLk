@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum PlayerEvents
 {
@@ -6,7 +7,7 @@ public enum PlayerEvents
     ENDTURN
 }
 
-public class Player : MonoBehaviour
+public class Player : MCharacterController
 {
     public static Player Instance
     {
@@ -14,42 +15,23 @@ public class Player : MonoBehaviour
         private set;
     }
 
-    private Character character;
     private bool movementEnabled = true;
 
     private PlayerHUD hud;
 
     private int gold = 10;
     private Attribute healthPotion;
-    private Attribute staminaPotion;
-
-    [Header("Character attributes")]
-    [SerializeField]
-    private int defaultHealth = 10;
-    [SerializeField]
-    private int defaultDamage = 10;
-    [SerializeField]
-    private int defaultStamina = 10;
-    [SerializeField]
-    private string pName = "DefaultName";
+    private Attribute staminaPotion;    
 
     private void Awake()
     {
         Instance = this;
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         hud = PlayerHUD.Instance;
-        character = GetComponent<Character>();
-        character.onCharacterStateChange = CharacterStateListener;
-
-        XmlReader.LoadPlayer(this);
-
-        character.SetHealth(defaultHealth);
-        character.SetDamage(defaultDamage);
-        character.SetStamina(defaultStamina);
-        character.name = pName;
 
         healthPotion = new Attribute(4);
         healthPotion.Value = 2;
@@ -99,7 +81,7 @@ public class Player : MonoBehaviour
         bool moved = character.MoveDirection(x, y);
         if (moved)
         {
-            character.GetStamina().Value--;
+            stamina.Value--;
             GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
         }
         else
@@ -108,19 +90,14 @@ public class Player : MonoBehaviour
         }
     }
 
-    private void CharacterStateListener(CharacterEvents cEvent)
+    public override void CharacterStateListener(CharacterEvents cEvent)
     {
         switch (cEvent)
         {
             case CharacterEvents.DEAD:
                 GameManager.Instance.PlayerEvent(PlayerEvents.DEAD);
                 break;
-            case CharacterEvents.STAMINA_CHANGE:
-                //InformationWindow.ShowInformation("Test", "Player's stamina value was changed: " + character.GetStamina().Value);
-                hud.SetStamina(character.GetStamina().Value);
-                break;
-            case CharacterEvents.HEALTH_CHANGE:
-                hud.SetHealth(character.GetHealth().Value);
+            case CharacterEvents.BATTLE_WON:
                 break;
         }
     }
@@ -130,34 +107,36 @@ public class Player : MonoBehaviour
         movementEnabled = action;
     }
 
-    public Character GetCharacter()
-    {
-        return character;
-    }
-
     public void Sleep()
     {
         character.GetStamina().Value += 4;
         InformationWindow.ShowInformation("Sleep", "You have slept for a while and now you feel better!", false);
     }
 
-    public void DrinkHealthPotion()
+    public override void OnBattleEnd(bool won, Character enemy)
     {
-        if (healthPotion.Value > 0)
-        {
-            healthPotion.Value--;
-            character.GetHealth().ResetValue();
-        }
+        if(won)
+            enemy.GenerateLoot(this);
     }
 
-    public void DrinkStaminaPotion()
+    #region AttributesValueHandlers
+
+    public override void OnDamageValueChange(int value, int oldValue)
     {
-        if (staminaPotion.Value > 0)
-        {
-            staminaPotion.Value--;
-            character.GetStamina().ResetValue();
-        }
+        
     }
+
+    public override void OnHealthValueChange(int value, int oldValue)
+    {
+        hud.SetHealth(value);
+    }
+
+    public override void OnStaminaValueChange(int value, int oldValue)
+    {
+        hud.SetStamina(value);
+    }
+
+    #endregion
 
     #region GoldManagment
     public void SetGold(int qty)
@@ -198,6 +177,24 @@ public class Player : MonoBehaviour
     public void OnHealthPotionQtyChange(int value, int oldValue)
     {
         hud.SetHealthPotions(value);
+    }
+
+    public void DrinkHealthPotion()
+    {
+        if (healthPotion.Value > 0)
+        {
+            healthPotion.Value--;
+            character.GetHealth().ResetValue();
+        }
+    }
+
+    public void DrinkStaminaPotion()
+    {
+        if (staminaPotion.Value > 0)
+        {
+            staminaPotion.Value--;
+            character.GetStamina().ResetValue();
+        }
     }
 
     #endregion

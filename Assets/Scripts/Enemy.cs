@@ -1,37 +1,63 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
-[RequireComponent(typeof(Character))]
-public class Enemy : MonoBehaviour
+public class Enemy : MCharacterController
 {
-    [Header("Character attributes")]
     [SerializeField]
-    private int defaultHealth = 10;
-    [SerializeField]
-    private int defaultDamage = 10;
-    [SerializeField]
-    private int defaultStamina = 10;
-    [SerializeField]
-    private string eName = "DefaultEnemyName";
+    private bool isAggressive = true;
 
-    private Character character;
-
-    private void Start ()
+    protected override void Start()
     {
-        character = GetComponent<Character>();
-        character.SetDamage(defaultDamage);
-        character.SetHealth(defaultHealth);
-        character.SetStamina(defaultStamina);
-        character.onCharacterStateChange = CharacterStateListener;
-        character.name = eName;
-	}
+        base.Start();
+    }
 
-    private void CharacterStateListener(CharacterEvents cEvent)
+    public override void CharacterStateListener(CharacterEvents cEvent)
     {
         switch (cEvent)
         {
-            case CharacterEvents.DEAD:
-                InformationWindow.ShowInformation("Death", name + " is dead!");
+            case CharacterEvents.TURN_END:
+                CheckPlayer();
                 break;
         }
     }
+
+    private void CheckPlayer()
+    {
+        if (!isAggressive)
+            return;
+
+        Character player = Player.Instance.GetCharacter();
+        if (player.IsStealthy())
+            return;
+
+        if (character.Distance(player) < 2)
+        {
+            BattleManager battle = new BattleManager(character, player);
+            battle.StartBattle();
+        }
+    }
+
+    public override void OnBattleEnd(bool won, Character enemy)
+    {
+        
+    }
+
+    #region AttributesValueHandlers
+
+    public override void OnDamageValueChange(int value, int oldValue)
+    {
+
+    }
+
+    public override void OnHealthValueChange(int value, int oldValue)
+    {
+
+    }
+
+    public override void OnStaminaValueChange(int value, int oldValue)
+    {
+
+    }
+
+    #endregion
 }

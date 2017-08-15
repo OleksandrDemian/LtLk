@@ -15,34 +15,11 @@ public class Building : Entity
         choices[1] = new Choice("Training (" + trainingGoldRequired + " gold)", delegate ()
         {
             Player p = Player.Instance;
-            if (p.GetGold() >= trainingGoldRequired)
+            if (p.GetGold().GetQty() >= trainingGoldRequired)
             {
-                int incHealth = Random.Range(0, 4);
-                int incDamage = Random.Range(0, 2);
-                int incStamina = Random.Range(0, 2);
                 p.AddGold(-trainingGoldRequired);
-
+                p.Training(1);
                 trainingGoldRequired += 20;
-
-                string msg = "";
-
-                if (incHealth > 0)
-                {
-                    msg += "Your health rised up by " + incHealth + " points!\n";
-                    p.GetCharacter().GetHealth().IncreaseDefaultValue(incHealth);
-                }
-                if (incDamage > 0)
-                {
-                    msg += "Your damage rised up by " + incDamage + " points!\n";
-                    p.GetCharacter().GetDamage().IncreaseDefaultValue(incDamage);
-                }
-                if (incStamina > 0)
-                {
-                    msg += "Your stamina rised up by " + incStamina + " points!";
-                    p.GetCharacter().GetStamina().IncreaseDefaultValue(incStamina);
-                }
-
-                InformationWindow.ShowInformation("Train result", msg);
             }
             else
             {
@@ -53,7 +30,7 @@ public class Building : Entity
         choices[2] = new Choice("Buy health potion (10 gold)", delegate()
         {
             Player p = Player.Instance;
-            if (p.GetGold() >= 10)
+            if (p.GetGold().GetQty() >= 10)
             {
                 p.AddGold(-10);
                 p.AddHealthPotion(1);
@@ -67,7 +44,7 @@ public class Building : Entity
         choices[3] = new Choice("Buy stamina potion (10 gold)", delegate()
         {
             Player p = Player.Instance;
-            if (p.GetGold() >= 10)
+            if (p.GetGold().GetQty() >= 10)
             {
                 p.AddGold(-10);
                 p.AddStaminaPotion(1);

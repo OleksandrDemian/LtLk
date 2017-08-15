@@ -198,13 +198,14 @@ public class Character : Entity
 
     public virtual void GenerateLoot(Player player)
     {
-        int gold = Random.Range(5, 20);
+        float mod = (GetPower() / 50f);
+        int gold = (int)(Random.Range(10, 20) * mod);
         player.AddGold(gold);
         InformationWindow.ShowInformation("Gold!", "You have found " + gold + " gold on " + name);
     }
 
     public int GetPower()
     {
-        return health.Value + damage.Value + stamina.Value;
+        return health.GetMax() + damage.GetMax() + stamina.GetMax();
     }
 }

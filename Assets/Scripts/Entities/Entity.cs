@@ -25,7 +25,7 @@ public abstract class Entity : MonoBehaviour
 
     public virtual void OnTurnEnd()
     {
-        Debug.Log(name + " onTurnEnd!");
+        //Debug.Log(name + " onTurnEnd!");
     }
 
     public int X

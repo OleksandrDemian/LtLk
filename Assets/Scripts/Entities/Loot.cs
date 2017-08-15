@@ -11,6 +11,7 @@ public class Loot : Entity
         int gold = Random.Range(10, 20);
         int hPotions = Random.Range(0, 100);
         int sPotions = Random.Range(0, 100);
+        int equipment = Random.Range(0, 100);
 
         Player p = Player.Instance;
 
@@ -25,8 +26,15 @@ public class Loot : Entity
 
         if (sPotions > probability)
         {
-            msg += "Stamina potion";
+            msg += "Stamina potion\n";
             p.AddStaminaPotion(1);
+        }
+
+        if (equipment > probability)
+        {
+            int amount = Random.Range(1, 4);
+            p.GetCharacter().GetDamage().IncreaseDefaultValue(amount);
+            msg += "Better equipment (+" + amount + " to damage)";
         }
 
         InformationWindow.ShowInformation("Loot", msg);

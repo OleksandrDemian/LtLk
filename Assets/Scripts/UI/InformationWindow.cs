@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class InformationWindow : MonoBehaviour, IPoolable
 {
@@ -8,6 +9,8 @@ public class InformationWindow : MonoBehaviour, IPoolable
     [SerializeField]
     private Text body;
     private bool isEvent = false;
+    private string wtag = "";
+    private static List<string> activeWindows = new List<string>();
 
     public static void ShowInformation(string title, string body)
     {
@@ -21,7 +24,7 @@ public class InformationWindow : MonoBehaviour, IPoolable
         });
     }
 
-    public static void ShowInformation(string title, string body, bool isEvent)
+    public static void ShowInformation(string title, string body, bool isEvent, string tag)
     {
         if (isEvent)
         {
@@ -29,10 +32,15 @@ public class InformationWindow : MonoBehaviour, IPoolable
         }
         else
         {
+            if (activeWindows.Contains(tag))
+                return;
+
             InformationWindow window = ObjectPool.Get<InformationWindow>();
             window.Show(title, body);
             window.isEvent = false;
+            window.wtag = tag;
             window.GetComponent<Canvas>().sortingOrder = 101;
+            activeWindows.Add(tag);
         }
     }
 
@@ -50,7 +58,9 @@ public class InformationWindow : MonoBehaviour, IPoolable
     public void Close()
     {
         ObjectPool.Add(this);
-        if(isEvent)
+        if (isEvent)
             EventManager.Instance.Next();
+        else
+            activeWindows.Remove(wtag);
     }
 }

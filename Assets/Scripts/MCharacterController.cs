@@ -4,6 +4,9 @@ public abstract class MCharacterController : MonoBehaviour
 {
     protected Character character;
 
+    [SerializeField]
+    protected bool initializeCharacter = false;
+
     [Header("Character attributes")]
     [SerializeField]
     protected int defaultHealth = 10;
@@ -18,11 +21,13 @@ public abstract class MCharacterController : MonoBehaviour
     {
         character = GetComponent<Character>();
         character.SetController(this);
-
-        character.SetHealth(defaultHealth);
-        character.SetDamage(defaultDamage);
-        character.SetStamina(defaultStamina);
-        character.name = cName;
+        if (initializeCharacter)
+        {
+            character.SetHealth(defaultHealth);
+            character.SetDamage(defaultDamage);
+            character.SetStamina(defaultStamina);
+            character.name = cName;
+        }
     }
 
     public Character GetCharacter()
@@ -35,4 +40,5 @@ public abstract class MCharacterController : MonoBehaviour
     public abstract void OnDamageValueChange(int value, int oldValue);
     public abstract void OnStaminaValueChange(int value, int oldValue);
     public abstract void OnBattleEnd(bool won, Character enemy);
+    public abstract Item GetGold();
 }

@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Enemy : MCharacterController
 {
@@ -40,6 +39,11 @@ public class Enemy : MCharacterController
     public override void OnBattleEnd(bool won, Character enemy)
     {
         
+    }
+
+    public override Item GetGold()
+    {
+        return new Item("Gold", 50);
     }
 
     #region AttributesValueHandlers

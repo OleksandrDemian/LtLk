@@ -46,9 +46,4 @@
             p.Training(5);
         }
     }
-
-    protected override void Update()
-    {
-
-    }
 }

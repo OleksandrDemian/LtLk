@@ -51,7 +51,6 @@ public abstract class Entity : MonoBehaviour
         return Mathf.Abs(dx) + Mathf.Abs(dy);
     }
 
-    protected abstract void Update();
     public abstract void Interact(Entity actor);
 
     protected static bool Success(int probability)

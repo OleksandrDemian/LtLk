@@ -13,11 +13,8 @@ public class Player : MCharacterController
         get;
         private set;
     }
-
     private bool movementEnabled = true;
-
     private PlayerHUD hud;
-
     private Inventory inventory;
 
     private void Awake()
@@ -163,7 +160,7 @@ public class Player : MCharacterController
         gold.AddQty(qty);
     }
 
-    public Item GetGold()
+    public override Item GetGold()
     {
         Item gold = inventory.GetItem("Gold");
         return gold;

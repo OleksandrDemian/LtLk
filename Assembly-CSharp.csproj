@@ -93,7 +93,9 @@
      <Compile Include="Assets\Scripts\Enemy.cs" />
      <Compile Include="Assets\Scripts\Entities\Building.cs" />
      <Compile Include="Assets\Scripts\Entities\Character.cs" />
+     <Compile Include="Assets\Scripts\Entities\Characters\Barbarian.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Ninja.cs" />
+     <Compile Include="Assets\Scripts\Entities\Characters\Thief.cs" />
      <Compile Include="Assets\Scripts\Entities\Entity.cs" />
      <Compile Include="Assets\Scripts\Entities\Loot.cs" />
      <Compile Include="Assets\Scripts\Entities\Sanctuary.cs" />

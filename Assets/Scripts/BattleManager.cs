@@ -20,8 +20,8 @@
         {
             turnIndex++;
 
-            character1.OnBattleTurn(turnIndex);
-            character2.OnBattleTurn(turnIndex);
+            character1.OnBattleTurn(turnIndex, character2);
+            character2.OnBattleTurn(turnIndex, character1);
 
             character1.ApplyDamage(character2.CalculateDamage());
             character2.ApplyDamage(character1.CalculateDamage());

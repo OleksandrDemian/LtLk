@@ -40,9 +40,4 @@ public class Loot : Entity
         InformationWindow.ShowInformation("Loot", msg);
         gameObject.SetActive(false);
     }
-
-    protected override void Update()
-    {
-
-    }
 }

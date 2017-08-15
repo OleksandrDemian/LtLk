@@ -22,6 +22,15 @@ public class Character : Entity
     protected override void Start()
     {
         base.Start();
+        InitializeAttributes();
+    }
+
+    protected virtual void InitializeAttributes()
+    {
+        name = "Default";
+        SetDamage(10);
+        SetHealth(10);
+        SetStamina(10);
     }
 
     public bool Move(int x, int y)
@@ -136,7 +145,7 @@ public class Character : Entity
         controller.CharacterStateListener(CharacterEvents.BATTLE_START);
     }
 
-    public virtual void OnBattleTurn(int turnIndex)
+    public virtual void OnBattleTurn(int turnIndex, Character enemy)
     {
         stamina.Value--;
     }
@@ -180,11 +189,6 @@ public class Character : Entity
         return stamina.Value / (float)stamina.GetMax();
     }
 
-    protected override void Update()
-    {
-        
-    }
-
     public bool IsAlive()
     {
         return health.Value > 0 ? true : false;
@@ -207,5 +211,10 @@ public class Character : Entity
     public int GetPower()
     {
         return health.GetMax() + damage.GetMax() + stamina.GetMax();
+    }
+
+    public virtual string GetDescription()
+    {
+        return "This is a bas character class";
     }
 }

@@ -59,9 +59,4 @@ public class Building : Entity
 
         ChoiceWindow.Open("City", "You are in the city of Patrunacs", choices);
     }
-
-    protected override void Update()
-    {
-        
-    }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Building : Entity
 {
@@ -58,5 +59,10 @@ public class Building : Entity
         choices[4] = new Choice("Go away", null);
 
         ChoiceWindow.Open("City", "You are in the city of Patrunacs", choices);
+    }
+
+    public override void ShowInfo()
+    {
+        InformationWindow.ShowInformation("Building", "This is building", false, "entityinfo");
     }
 }

@@ -11,11 +11,11 @@ public class Ninja : Character
     private int doubleDamageProbability = 15;
     private int stealthProbability = 90;
 
-    protected override void InitializeAttributes()
+    public override void InitializeAttributes()
     {
-        SetHealth(20);
-        SetStamina(20);
-        SetDamage(20);
+        SetHealth(30);
+        SetStamina(18);
+        SetDamage(10);
         name = "Ninja";
     }
 

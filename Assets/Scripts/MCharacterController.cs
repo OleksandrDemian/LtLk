@@ -28,6 +28,10 @@ public abstract class MCharacterController : MonoBehaviour
             character.SetStamina(defaultStamina);
             character.name = cName;
         }
+        else
+        {
+            character.InitializeAttributes();
+        }
     }
 
     public Character GetCharacter()

@@ -4,17 +4,18 @@
 /// Rigenerate stamina
 /// Don't lose stamina during battle
 /// Decrease enemy stamina
+/// Do not consume stamina while moving on fields
 /// </summary>
 public class Barbarian : Character
 {
     private int restoreStaminaProbability = 20;
     private int decreaseEnemyStaminaProbability = 15;
 
-    protected override void InitializeAttributes()
+    public override void InitializeAttributes()
     {
-        SetHealth(30);
+        SetHealth(45);
         SetStamina(15);
-        SetDamage(17);
+        SetDamage(9);
         name = "Barbarian";
     }
 
@@ -37,8 +38,14 @@ public class Barbarian : Character
         }
     }
 
+    protected override void OnCharacterMoved()
+    {
+        if(currentNode.GetLandScape() != LandscapeType.FIELD)
+            base.OnCharacterMoved();
+    }
+
     public override string GetDescription()
     {
-        return "Abilities: Rigenerate stamina during battle, don't lose stamina during battle, decrease enemy stamina";
+        return "Abilities: Rigenerate stamina during battle, don't lose stamina during battle, decrease enemy stamina, do not consume stamina while moving on filed landscape";
     }
 }

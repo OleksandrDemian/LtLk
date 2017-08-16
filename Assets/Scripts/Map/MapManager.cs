@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MapManager
 {
@@ -57,6 +58,22 @@ public class MapManager
                 map[x, y] = new Node(true);
             }
         }
+    }
+
+    public List<Node> GetAdiacentNodes(int x, int y)
+    {
+        List<Node> adiacentNodes = new List<Node>();
+        for (int cY = y - 1; cY < y + 2; cY++)
+        {
+            for (int cX = x - 1; cX < x + 2; cX++)
+            {
+                if (IsPointValid(cX, cY))
+                {
+                    adiacentNodes.Add(GetNode(cX, cY));
+                }
+            }
+        }
+        return adiacentNodes;
     }
 
     public void GenerateMap()

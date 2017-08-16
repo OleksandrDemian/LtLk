@@ -56,4 +56,19 @@ public class PlayerHUD : MonoBehaviour
     {
         pStaminaPotions.text = "Stamina potions: " + qty;
     }
+
+    public void DrinkHealthPotion()
+    {
+        Player.Instance.DrinkHealthPotion();
+    }
+
+    public void DrinkStaminaPotion()
+    {
+        Player.Instance.DrinkStaminaPotion();
+    }
+
+    public void Sleep()
+    {
+        Player.Instance.Sleep();
+    }
 }

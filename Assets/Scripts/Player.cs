@@ -68,6 +68,28 @@ public class Player : MCharacterController
         {
             DrinkStaminaPotion();
         }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckCell();
+        }
+    }
+
+    private void CheckCell()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hit;
+
+        if (Physics.Raycast(ray, out hit, 100))
+        {
+            Vector3 targetPoint = hit.collider.transform.position;
+
+            Debug.Log(hit.collider.name + " " + targetPoint);
+
+            Entity e = MapManager.Instance.GetNode((int)targetPoint.x, (int)targetPoint.z).GetEntity();
+            if(e != null)
+                e.ShowInfo();
+        }
     }
 
     private void MoveCharacter(int x, int y)
@@ -81,7 +103,6 @@ public class Player : MCharacterController
         bool moved = character.MoveDirection(x, y);
         if (moved)
         {
-            stamina.Value--;
             GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
         }
         else

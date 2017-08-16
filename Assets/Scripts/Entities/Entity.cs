@@ -28,6 +28,8 @@ public abstract class Entity : MonoBehaviour
         //Debug.Log(name + " onTurnEnd!");
     }
 
+    public abstract void ShowInfo();
+
     public int X
     {
         get

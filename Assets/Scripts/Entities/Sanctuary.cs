@@ -46,4 +46,9 @@
             p.Training(5);
         }
     }
+
+    public override void ShowInfo()
+    {
+        InformationWindow.ShowInformation("Sanctuary", "This is a sanctuary", false, "entityinfo");
+    }
 }

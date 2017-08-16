@@ -33,11 +33,18 @@ public class Loot : Entity
         if (equipment > probability)
         {
             int amount = Random.Range(1, 4);
-            p.GetCharacter().GetDamage().IncreaseDefaultValue(amount);
+            Attribute damage = p.GetCharacter().GetDamage();
+            damage.IncreaseDefaultValue(amount);
+            damage.ResetValue();
             msg += "Better equipment (+" + amount + " to damage)";
         }
 
         InformationWindow.ShowInformation("Loot", msg);
         gameObject.SetActive(false);
+    }
+
+    public override void ShowInfo()
+    {
+        InformationWindow.ShowInformation("Loot", "This is a loot", false, "entityinfo");
     }
 }

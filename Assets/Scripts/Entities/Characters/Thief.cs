@@ -4,18 +4,22 @@
 /// Stealth
 /// Steels gold
 /// Avoid damage
+/// Find gold on map
+/// Contrattack
 /// </summary>
 public class Thief : Character
 {
     private int steelGoldProbability = 20;
     private int stealthProbability = 50;
-    private int avoidDamageProbability = 10;
+    private int avoidDamageProbability = 30;
+    private int findGoldOnMapProbability = 20;
+    private int contrAttackProbability = 30;
 
-    protected override void InitializeAttributes()
+    public override void InitializeAttributes()
     {
         name = "Thief";
-        SetDamage(10);
-        SetHealth(10);
+        SetDamage(7);
+        SetHealth(20);
         SetStamina(20);
     }
 
@@ -36,6 +40,20 @@ public class Thief : Character
             enemy.GetController().GetGold().AddQty(-qty);
             GetController().GetGold().AddQty(qty);
         }
+
+        if (Success(contrAttackProbability))
+            enemy.ApplyDamage(CalculateDamage());
+    }
+
+    protected override void OnCharacterMoved()
+    {
+        base.OnCharacterMoved();
+        if (Success(findGoldOnMapProbability))
+        {
+            int gold = UnityEngine.Random.Range(2, 5);
+            Toast.ShowToast("You have found " + gold + " gold!", 1);
+            controller.GetGold().AddQty(gold);
+        }
     }
 
     public override bool IsStealthy()
@@ -45,6 +63,6 @@ public class Thief : Character
 
     public override string GetDescription()
     {
-        return "Abilities: Stealth, steels gold during battle, avoid damage";
+        return "Abilities: Stealth, steels gold during battle, avoid damage, Find's gold on map";
     }
 }

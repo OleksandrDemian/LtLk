@@ -22,10 +22,10 @@ public class Character : Entity
     protected override void Start()
     {
         base.Start();
-        InitializeAttributes();
+        //InitializeAttributes();
     }
 
-    protected virtual void InitializeAttributes()
+    public virtual void InitializeAttributes()
     {
         name = "Default";
         SetDamage(10);
@@ -124,6 +124,7 @@ public class Character : Entity
         currentNode.ReleaseEntity();
         node.SetEntity(this);
         currentNode = node;
+        OnCharacterMoved();
     }
 
     public override void Interact(Entity actor)
@@ -161,6 +162,11 @@ public class Character : Entity
             controller.OnBattleEnd(false, enemy);
             Death();
         }
+    }
+
+    protected virtual void OnCharacterMoved()
+    {
+        stamina.Value--;
     }
 
     public void SetController(MCharacterController controller)
@@ -216,5 +222,10 @@ public class Character : Entity
     public virtual string GetDescription()
     {
         return "This is a bas character class";
+    }
+
+    public override void ShowInfo()
+    {
+        CharacterInfoWindow.Show(this);
     }
 }

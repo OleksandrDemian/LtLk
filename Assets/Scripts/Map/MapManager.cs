@@ -60,20 +60,49 @@ public class MapManager
         }
     }
 
-    public List<Node> GetAdiacentNodes(int x, int y)
+    public List<Node> GetAllAdjacentNodes(int x, int y)
     {
-        List<Node> adiacentNodes = new List<Node>();
-        for (int cY = y - 1; cY < y + 2; cY++)
+        return GetAllAdjacentNodes(x, y, 1);
+    }
+
+    public List<Node> GetAllAdjacentNodes(int x, int y, int radius)
+    {
+        List<Node> adjacentNodes = new List<Node>();
+        for (int cY = y - radius; cY <= y + radius; cY++)
         {
-            for (int cX = x - 1; cX < x + 2; cX++)
+            for (int cX = x - radius; cX <= x + radius; cX++)
             {
                 if (IsPointValid(cX, cY))
                 {
-                    adiacentNodes.Add(GetNode(cX, cY));
+                    adjacentNodes.Add(GetNode(cX, cY));
                 }
             }
         }
-        return adiacentNodes;
+        return adjacentNodes;
+    }
+
+    public List<Node> GetDirectlyAdjacentNodes(int x, int y)
+    {
+        List<Node> adjacentNodes = new List<Node>();
+
+        if (IsPointValid(x, y + 1))
+        {
+            adjacentNodes.Add(GetNode(x, y+1));
+        }
+        if (IsPointValid(x, y - 1))
+        {
+            adjacentNodes.Add(GetNode(x, y - 1));
+        }
+        if (IsPointValid(x + 1, y))
+        {
+            adjacentNodes.Add(GetNode(x + 1, y));
+        }
+        if (IsPointValid(x - 1, y))
+        {
+            adjacentNodes.Add(GetNode(x - 1, y));
+        }
+
+        return adjacentNodes;
     }
 
     public void GenerateMap()

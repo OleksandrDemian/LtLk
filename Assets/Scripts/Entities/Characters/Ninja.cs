@@ -19,16 +19,16 @@ public class Ninja : Character
         name = "Ninja";
     }
 
-    public override void ApplyDamage(int amount)
+    public override void ApplyDamage(int amount, Character actor)
     {
-        bool success = Success(avoidDamageProbability);
+        bool success = Success(avoidDamageProbability, name + " avoids damage");
         if(!success)
-            base.ApplyDamage(amount);
+            base.ApplyDamage(amount, actor);
     }
 
     public override int CalculateDamage()
     {
-        bool success = Success(doubleDamageProbability);
+        bool success = Success(doubleDamageProbability, name + " double damage");
 
         if (success)
             return base.CalculateDamage() * 2;

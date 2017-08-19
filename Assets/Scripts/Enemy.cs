@@ -8,6 +8,7 @@ public class Enemy : MCharacterController
     protected override void Start()
     {
         base.Start();
+        character.SetIsPlayer(false);
     }
 
     public override void CharacterStateListener(CharacterEvents cEvent)
@@ -31,8 +32,8 @@ public class Enemy : MCharacterController
 
         if (character.Distance(player) < 2)
         {
-            BattleManager battle = new BattleManager(character, player);
-            battle.StartBattle();
+            //BattleManager battle = new BattleManager(character, player);
+            //battle.StartBattle();
         }
     }
 

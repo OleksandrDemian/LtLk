@@ -11,6 +11,7 @@
 
     public void StartBattle()
     {
+        return;
         int turnIndex = 0;
 
         character1.OnBattleStart(character2);
@@ -23,8 +24,8 @@
             character1.OnBattleTurn(turnIndex, character2);
             character2.OnBattleTurn(turnIndex, character1);
 
-            character1.ApplyDamage(character2.CalculateDamage());
-            character2.ApplyDamage(character1.CalculateDamage());
+            //character1.ApplyDamage(character2.CalculateDamage());
+            //character2.ApplyDamage(character1.CalculateDamage());
         }
 
         character1.OnBattleEnd(character2);

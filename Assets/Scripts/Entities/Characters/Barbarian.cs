@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Barbarian
 /// Abilities:
-/// Rigenerate stamina
+/// Rigenerate stamina when attacked
 /// Don't lose stamina during battle
 /// Decrease enemy stamina
 /// Do not consume stamina while moving on fields
@@ -19,11 +19,27 @@ public class Barbarian : Character
         name = "Barbarian";
     }
 
-    public override void ApplyDamage(int amount)
+    public override void ApplyDamage(int amount, Character actor)
     {
-        base.ApplyDamage(amount);
+        base.ApplyDamage(amount, actor);
+        
+        if (Success(decreaseEnemyStaminaProbability, name + " decreases enemy stamina"))
+        {
+            actor.GetStamina().Value--;
+        }
+
+        if (Success(restoreStaminaProbability, name + " restores stamina"))
+        {
+            stamina.Value++;
+        }
     }
 
+    protected override void OnAttackDone(Character victim)
+    {
+        //Does not lose stamina when attacks
+        //base.OnAttackDone(victim);
+    }
+    /*
     public override void OnBattleTurn(int turnIndex, Character enemy)
     {
         //base.OnBattleTurn(turnIndex);
@@ -37,9 +53,10 @@ public class Barbarian : Character
             enemy.GetStamina().Value--;
         }
     }
-
+    */
     protected override void OnCharacterMoved()
     {
+        //Does not lose stamina when on field
         if(currentNode.GetLandScape() != LandscapeType.FIELD)
             base.OnCharacterMoved();
     }

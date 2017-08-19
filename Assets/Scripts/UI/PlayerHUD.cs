@@ -67,8 +67,8 @@ public class PlayerHUD : MonoBehaviour
         Player.Instance.DrinkStaminaPotion();
     }
 
-    public void Sleep()
+    public void EndTurn()
     {
-        Player.Instance.Sleep();
+        Player.Instance.EndTurn();
     }
 }

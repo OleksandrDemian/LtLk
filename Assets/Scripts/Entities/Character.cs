@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public enum CharacterEvents
 {
@@ -16,6 +17,8 @@ public class Character : Entity
     protected Attribute health;
     protected Attribute damage;
     protected Attribute stamina;
+
+    private bool isPlayer = false;
 
     protected MCharacterController controller;
 
@@ -98,7 +101,10 @@ public class Character : Entity
 
     protected virtual void OnHealthValueChange(int value, int oldValue)
     {
-        controller.OnHealthValueChange(value, oldValue);
+        if (value < 1)
+            Death();
+        else
+            controller.OnHealthValueChange(value, oldValue);
     }
 
     protected virtual void OnDamageValueChange(int value, int oldValue)
@@ -129,6 +135,8 @@ public class Character : Entity
 
     public override void Interact(Entity actor)
     {
+        return;
+
         if (actor is Character)
         {
             BattleManager battle = new BattleManager(this, actor as Character);
@@ -141,6 +149,7 @@ public class Character : Entity
         return false;
     }
 
+    #region BattleEvents
     public virtual void OnBattleStart(Character enemy)
     {
         controller.CharacterStateListener(CharacterEvents.BATTLE_START);
@@ -163,6 +172,7 @@ public class Character : Entity
             Death();
         }
     }
+    #endregion
 
     protected virtual void OnCharacterMoved()
     {
@@ -179,7 +189,7 @@ public class Character : Entity
         return controller;
     }
 
-    public virtual void ApplyDamage(int amount)
+    public virtual void ApplyDamage(int amount, Character actor)
     {
         health.Value -= amount;
     }
@@ -203,6 +213,7 @@ public class Character : Entity
     public override void OnTurnEnd()
     {
         base.OnTurnEnd();
+        PerformAttack();
         controller.CharacterStateListener(CharacterEvents.TURN_END);
     }
 
@@ -227,5 +238,43 @@ public class Character : Entity
     public override void ShowInfo()
     {
         CharacterInfoWindow.Show(this);
+    }
+
+    public void SetIsPlayer(bool isPlayer)
+    {
+        this.isPlayer = isPlayer;
+    }
+
+    public bool IsPlayer
+    {
+        get { return isPlayer; }
+    }
+
+    protected virtual void PerformAttack()
+    {
+        List<Node> nodes = MapManager.Instance.GetAllAdjacentNodes(X, Y);
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (!nodes[i].HasEntity())
+                continue;
+
+            Character target = nodes[i].GetEntity() as Character;
+
+            if (target == null)
+                continue;
+
+            if (isPlayer == target.isPlayer)
+                continue;
+
+            int damage = CalculateDamage();
+            target.ApplyDamage(damage, this);
+            OnAttackDone(target);
+            Debug.Log(name + " >> " + target.name + ": " + damage);
+        }
+    }
+
+    protected virtual void OnAttackDone(Character victim)
+    {
+        stamina.Value--;
     }
 }

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public abstract class Entity : MonoBehaviour
 {
@@ -13,7 +14,6 @@ public abstract class Entity : MonoBehaviour
 
     protected virtual void OnDisable()
     {
-        //Debug.Log("Diasable: " + name);
         DisableEntity();
     }
 
@@ -58,5 +58,28 @@ public abstract class Entity : MonoBehaviour
     protected static bool Success(int probability)
     {
         return Random.Range(0, 100) < probability ? true : false;
+    }
+
+    protected static bool Success(int probability, string label)
+    {
+        bool success = Success(probability);
+        if (success)
+            Debug.Log(label);
+
+        return success;
+    }
+
+    public bool HasAsNearby(System.Type type)
+    {
+        List<Node> nodes = MapManager.Instance.GetAllAdjacentNodes(X, Y);
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (!nodes[i].HasEntity())
+                continue;
+
+            if (nodes[i].GetEntity().GetType() == type)
+                return true;
+        }
+        return false;
     }
 }

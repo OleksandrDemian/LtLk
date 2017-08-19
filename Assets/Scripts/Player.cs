@@ -25,6 +25,7 @@ public class Player : MCharacterController
     protected override void Start()
     {
         base.Start();
+        character.SetIsPlayer(true);
         hud = PlayerHUD.Instance;
 
         EItem gold = new EItem("Gold", 20);
@@ -103,7 +104,8 @@ public class Player : MCharacterController
         bool moved = character.MoveDirection(x, y);
         if (moved)
         {
-            GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
+            //GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
+            EndTurn();
         }
         else
         {
@@ -133,6 +135,13 @@ public class Player : MCharacterController
         character.GetStamina().Value += 4;
         character.GetHealth().Value++;
         InformationWindow.ShowInformation("Sleep", "You have slept for a while and now you feel better!", false, "sleep");
+        //GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
+        EndTurn();
+    }
+
+    public void EndTurn()
+    {
+        GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
     }
 
     public Inventory Inventory

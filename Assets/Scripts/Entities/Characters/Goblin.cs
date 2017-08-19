@@ -15,9 +15,9 @@ public class Goblin : Character
         name = "Goblin";
     }
 
-    public override void ApplyDamage(int amount)
+    public override void ApplyDamage(int amount, Character actor)
     {
-        if(!Success(avoidDamageProbability))
-            base.ApplyDamage(amount);
+        if(!Success(avoidDamageProbability, name + " avoids damage"))
+            base.ApplyDamage(amount, actor);
     }
 }

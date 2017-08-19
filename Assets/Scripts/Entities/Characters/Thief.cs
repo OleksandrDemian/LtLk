@@ -23,13 +23,23 @@ public class Thief : Character
         SetStamina(20);
     }
 
-    public override void ApplyDamage(int amount)
+    public override void ApplyDamage(int amount, Character actor)
     {
-        bool success = Success(avoidDamageProbability);
+        bool success = Success(avoidDamageProbability, name + " avoids damage");
         if (!success)
-            base.ApplyDamage(amount);
-    }
+            base.ApplyDamage(amount, actor);
+        
+        if (Success(contrAttackProbability, name + " contrattacks"))
+            actor.ApplyDamage(CalculateDamage(), this);
 
+        if (Success(steelGoldProbability, name + " steals gold"))
+        {
+            int qty = UnityEngine.Random.Range(0, 4);
+            actor.GetController().GetGold().AddQty(-qty);
+            GetController().GetGold().AddQty(qty);
+        }
+    }
+    /*
     public override void OnBattleTurn(int turnIndex, Character enemy)
     {
         base.OnBattleTurn(turnIndex, enemy);
@@ -44,13 +54,18 @@ public class Thief : Character
         if (Success(contrAttackProbability))
             enemy.ApplyDamage(CalculateDamage());
     }
-
+    */
     protected override void OnCharacterMoved()
     {
         base.OnCharacterMoved();
-        if (Success(findGoldOnMapProbability))
+        if (Success(findGoldOnMapProbability, name + " finds gold on map"))
         {
             int gold = UnityEngine.Random.Range(2, 5);
+            
+            //Double gold near cities etc
+            if (HasAsNearby(typeof(Building)))
+                gold *= 2;
+
             Toast.ShowToast("You have found " + gold + " gold!", 1);
             controller.GetGold().AddQty(gold);
         }

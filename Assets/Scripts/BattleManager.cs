@@ -1,5 +1,6 @@
 ﻿public class BattleManager
 {
+    /*
     private Character character1;
     private Character character2;
     
@@ -31,4 +32,5 @@
         character1.OnBattleEnd(character2);
         character2.OnBattleEnd(character1);
     }
+*/
 }

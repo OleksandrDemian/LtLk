@@ -4,6 +4,11 @@ public class Loot : Entity
 {
     private static int probability = 70;
 
+    public override void Turn()
+    {
+        GameManager.Instance.OnEntityTurnEnd(this);
+    }
+
     public override void Interact(Entity actor)
     {
         string msg = "You get:\n";

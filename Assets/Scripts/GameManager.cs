@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(ObjectPool))]
@@ -12,13 +12,13 @@ public class GameManager : MonoBehaviour, IEventListener
 
     private MapManager map;
     private EventManager eventsManager;
-    private List<Entity> entities;
+    private EntitiesManager entities;
 
     private void Awake()
     {
         Instance = this;
         map = new MapManager(15, 15);
-        entities = new List<Entity>();
+        entities = new EntitiesManager();
     }
 
 	private void Start ()
@@ -26,52 +26,49 @@ public class GameManager : MonoBehaviour, IEventListener
         map.GenerateMap();
         eventsManager = new EventManager();
         eventsManager.SetListener(this);
-    }
-	
-	private void Update ()
-    {
-		
-	}
-
-    public void EndTurn()
-    {
-        Player.Instance.EnableMovement(false);
-        //InformationWindow.ShowInformation("Test", "Turn ended", false);
-
-        for (int i = 0; i < entities.Count; i++)
-        {
-            entities[i].OnTurnEnd();
-        }
-
-        eventsManager.Next();
+        Debug.Log("GM: Start");
+        StartCoroutine(StartWait());
     }
 
-    public void AddEntity(Entity entity)
+    private IEnumerator StartWait()
     {
-        entities.Add(entity);
+        Debug.Log("Start wait!");
+        yield return new WaitForSeconds(1);
+        Debug.Log("Game starts!");
+        entities.NextEntityUpdate();
     }
 
-    public void RemoveEntity(Entity entity)
+    public void OnEntityTurnEnd(Entity entity)
     {
-        entities.Remove(entity);
+        //entities.NextEntityUpdate();
+        StartCoroutine(NextEntity());
+    }
+
+    private IEnumerator NextEntity()
+    {
+        yield return null;
+        entities.NextEntityUpdate();
     }
 
     public void PlayerEvent(PlayerEvents type)
     {
         switch (type)
         {
-            case PlayerEvents.ENDTURN:
-                EndTurn();
-                break;
             case PlayerEvents.DEAD:
                 InformationWindow.ShowInformation("Game over", "Your hero is dead!");
                 break;
         }
     }
 
+    public void TurnEnd()
+    {
+        eventsManager.Next();
+    }
+
     public void OnEventsEnd()
     {
         eventsManager.ResetEvents();
-        Player.Instance.EnableMovement(true);
+        //Player.Instance.EnableMovement(true);
+        entities.NextEntityUpdate();
     }
 }

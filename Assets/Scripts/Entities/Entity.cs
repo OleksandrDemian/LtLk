@@ -9,7 +9,7 @@ public abstract class Entity : MonoBehaviour
     {
         currentNode = MapManager.Instance.GetNode(X, Y);
         currentNode.SetEntity(this);
-        GameManager.Instance.AddEntity(this);
+        EntitiesManager.Instance.AddEntity(this);
     }
 
     protected virtual void OnDisable()
@@ -20,12 +20,7 @@ public abstract class Entity : MonoBehaviour
     protected void DisableEntity()
     {
         currentNode.ReleaseEntity();
-        GameManager.Instance.RemoveEntity(this);
-    }
-
-    public virtual void OnTurnEnd()
-    {
-        //Debug.Log(name + " onTurnEnd!");
+        EntitiesManager.Instance.RemoveEntity(this);
     }
 
     public abstract void ShowInfo();
@@ -54,6 +49,7 @@ public abstract class Entity : MonoBehaviour
     }
 
     public abstract void Interact(Entity actor);
+    public abstract void Turn();
 
     protected static bool Success(int probability)
     {

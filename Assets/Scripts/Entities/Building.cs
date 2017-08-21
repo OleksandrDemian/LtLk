@@ -1,9 +1,11 @@
-﻿using System;
-using UnityEngine;
-
-public class Building : Entity
+﻿public class Building : Entity
 {
     private int trainingGoldRequired = 50;
+
+    public override void Turn()
+    {
+        GameManager.Instance.OnEntityTurnEnd(this);
+    }
 
     public override void Interact(Entity actor)
     {

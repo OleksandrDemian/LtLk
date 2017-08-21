@@ -9,7 +9,7 @@ public class Ninja : Character
 {
     private int avoidDamageProbability = 30;
     private int doubleDamageProbability = 15;
-    private int stealthProbability = 90;
+    private int stealthProbability = 80;
 
     public override void InitializeAttributes()
     {

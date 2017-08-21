@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public enum PlayerEvents
 {
@@ -13,7 +14,7 @@ public class Player : MCharacterController
         get;
         private set;
     }
-    private bool movementEnabled = true;
+    private bool movementEnabled = false;
     private PlayerHUD hud;
     private Inventory inventory;
 
@@ -43,12 +44,17 @@ public class Player : MCharacterController
 
         hud.SetName(name);
         hud.SetGold(gold.GetQty());
-        hud.SetStamina(defaultStamina);
-        hud.SetHealth(defaultHealth);
+        hud.SetStamina(character.GetStamina().Value);
+        hud.SetHealth(character.GetHealth().Value);
     }
 
     private void Update()
     {
+        if (Input.GetMouseButtonDown(0))
+        {
+            CheckCell();
+        }
+
         if (!movementEnabled)
             return;
 
@@ -69,15 +75,16 @@ public class Player : MCharacterController
         {
             DrinkStaminaPotion();
         }
-
-        if (Input.GetMouseButtonDown(0))
-        {
-            CheckCell();
-        }
     }
 
     private void CheckCell()
     {
+        //if pointer is on some GUI element: do not do raycast
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return;
+        }
+
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         RaycastHit hit;
 
@@ -120,9 +127,24 @@ public class Player : MCharacterController
             case CharacterEvents.DEAD:
                 GameManager.Instance.PlayerEvent(PlayerEvents.DEAD);
                 break;
-            case CharacterEvents.BATTLE_WON:
+            case CharacterEvents.TURN_END:
+                EnableMovement(false);
+                EndTurn();
                 break;
         }
+    }
+
+    public override bool StartTurn()
+    {
+        EnableMovement(true);
+        //InformationWindow.ShowInformation("Turn", "It is your turn now!", false, "playersturn");
+        Toast.ShowToast("It is your turn now!");
+        return true;
+    }
+
+    public override void TurnUpdate()
+    {
+        
     }
 
     public void EnableMovement(bool action)
@@ -132,16 +154,43 @@ public class Player : MCharacterController
 
     public void Sleep()
     {
+        if (!movementEnabled)
+            return;
+
         character.GetStamina().Value += 4;
         character.GetHealth().Value++;
-        InformationWindow.ShowInformation("Sleep", "You have slept for a while and now you feel better!", false, "sleep");
-        //GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
-        EndTurn();
+        InformationWindow.ShowInformation("Sleep", "You have slept for a while and now you feel better!");
     }
 
     public void EndTurn()
     {
-        GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
+        if (!movementEnabled)
+            return;
+
+        if (!character.DidSomeAction)
+        {
+            Sleep();
+        }
+
+        EnableMovement(false);
+        character.EndTurn(true);
+    }
+
+    public override bool InteractWith(Entity target)
+    {
+        if (target is Character)
+        {
+            Character c = target as Character;
+            if (!c.IsPlayer)
+            {
+                character.Attack(c);
+            }
+        }
+        else
+        {
+            target.Interact(character);
+        }
+        return true;
     }
 
     public Inventory Inventory
@@ -150,12 +199,6 @@ public class Player : MCharacterController
         {
             return inventory;
         }
-    }
-
-    public override void OnBattleEnd(bool won, Character enemy)
-    {
-        if(won)
-            enemy.GenerateLoot(this);
     }
 
     #region AttributesValueHandlers
@@ -226,6 +269,8 @@ public class Player : MCharacterController
 
     public void DrinkHealthPotion()
     {
+        if (!movementEnabled)
+            return;
         Item hp = inventory.GetItem("Health potion");
         if (hp.GetQty() > 0)
         {
@@ -236,6 +281,9 @@ public class Player : MCharacterController
 
     public void DrinkStaminaPotion()
     {
+        if (!movementEnabled)
+            return;
+
         Item sp = inventory.GetItem("Stamina potion");
         if (sp.GetQty() > 0)
         {

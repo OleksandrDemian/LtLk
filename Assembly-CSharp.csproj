@@ -95,12 +95,14 @@
      <Compile Include="Assets\Scripts\Entities\Character.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Barbarian.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Goblin.cs" />
+     <Compile Include="Assets\Scripts\Entities\Characters\Knight.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Ninja.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Orc.cs" />
      <Compile Include="Assets\Scripts\Entities\Characters\Thief.cs" />
      <Compile Include="Assets\Scripts\Entities\Entity.cs" />
      <Compile Include="Assets\Scripts\Entities\Loot.cs" />
      <Compile Include="Assets\Scripts\Entities\Sanctuary.cs" />
+     <Compile Include="Assets\Scripts\EntitiesManager.cs" />
      <Compile Include="Assets\Scripts\Events\Event.cs" />
      <Compile Include="Assets\Scripts\Events\EventManager.cs" />
      <Compile Include="Assets\Scripts\Events\IEventListener.cs" />
@@ -198,9 +200,6 @@
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
- <Reference Include="UnityEngine.Advertisements">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/UnityEngine.Advertisements.dll</HintPath>
- </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -215,9 +214,6 @@
  </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
- </Reference>
- <Reference Include="UnityEngine.Purchasing">
- <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityPurchasing/UnityEngine.Purchasing.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>

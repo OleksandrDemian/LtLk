@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum CharacterEvents
 {
@@ -9,7 +8,8 @@ public enum CharacterEvents
     DEAD,
     TURN_END,
     BATTLE_WON,
-    BATTLE_START
+    BATTLE_START,
+    TURN_START
 }
 
 public class Character : Entity
@@ -17,6 +17,8 @@ public class Character : Entity
     protected Attribute health;
     protected Attribute damage;
     protected Attribute stamina;
+
+    protected bool didSomeAction = false;
 
     private bool isPlayer = false;
 
@@ -47,12 +49,16 @@ public class Character : Entity
 
         if (node.HasEntity())
         {
-            node.GetEntity().Interact(this);
+            //node.GetEntity().Interact(this);
+            if(controller.InteractWith(node.GetEntity()))
+                didSomeAction = true;
         }
         else
         {
             MoveToNode(node);
             transform.position = new Vector3(x, transform.position.y, y);
+            didSomeAction = true;
+            //controller.AnimateMovement(new Vector3(x, transform.position.y, y));
         }
         return true;
     }
@@ -119,6 +125,18 @@ public class Character : Entity
 
     #endregion
 
+    public bool DidSomeAction
+    {
+        set
+        {
+            didSomeAction = value;
+        }
+        get
+        {
+            return didSomeAction;
+        }
+    }
+
     public void Death()
     {
         controller.CharacterStateListener(CharacterEvents.DEAD);
@@ -136,47 +154,18 @@ public class Character : Entity
     public override void Interact(Entity actor)
     {
         return;
-
+        /*
         if (actor is Character)
         {
             BattleManager battle = new BattleManager(this, actor as Character);
             battle.StartBattle();
         }
+        */
     }
 
     public virtual bool IsStealthy()
     {
         return false;
-    }
-
-    #region BattleEvents
-    public virtual void OnBattleStart(Character enemy)
-    {
-        controller.CharacterStateListener(CharacterEvents.BATTLE_START);
-    }
-
-    public virtual void OnBattleTurn(int turnIndex, Character enemy)
-    {
-        stamina.Value--;
-    }
-
-    public virtual void OnBattleEnd(Character enemy)
-    {
-        if (IsAlive())
-        {
-            controller.OnBattleEnd(true, enemy);
-        }
-        else
-        {
-            controller.OnBattleEnd(false, enemy);
-            Death();
-        }
-    }
-    #endregion
-
-    protected virtual void OnCharacterMoved()
-    {
-        stamina.Value--;
     }
 
     public void SetController(MCharacterController controller)
@@ -210,12 +199,39 @@ public class Character : Entity
         return health.Value > 0 ? true : false;
     }
 
-    public override void OnTurnEnd()
+    #region TurnManagment
+
+    public virtual void OnTurnStart()
     {
-        base.OnTurnEnd();
-        PerformAttack();
-        controller.CharacterStateListener(CharacterEvents.TURN_END);
+
     }
+
+    public override void Turn()
+    {        
+        if (!controller.StartTurn())
+        {
+            EndTurn(false);
+            return;
+        }
+        
+        didSomeAction = false;
+        OnTurnStart();
+        controller.TurnUpdate();
+    }
+
+    public virtual void OnTurnEnd()
+    {
+
+    }
+
+    public void EndTurn(bool onTurnEnd)
+    {
+        if(onTurnEnd)
+            OnTurnEnd();
+        GameManager.Instance.OnEntityTurnEnd(this);
+    }
+
+    #endregion
 
     public virtual void GenerateLoot(Player player)
     {
@@ -250,27 +266,19 @@ public class Character : Entity
         get { return isPlayer; }
     }
 
-    protected virtual void PerformAttack()
+    public void Attack(Character target)
     {
-        List<Node> nodes = MapManager.Instance.GetAllAdjacentNodes(X, Y);
-        for (int i = 0; i < nodes.Count; i++)
-        {
-            if (!nodes[i].HasEntity())
-                continue;
+        int damage = CalculateDamage();
+        target.ApplyDamage(damage, this);
+        OnAttackDone(target);
 
-            Character target = nodes[i].GetEntity() as Character;
+        Debug.Log(name + " >> " + target.name + ": " + damage);
+        didSomeAction = true;
+    }
 
-            if (target == null)
-                continue;
-
-            if (isPlayer == target.isPlayer)
-                continue;
-
-            int damage = CalculateDamage();
-            target.ApplyDamage(damage, this);
-            OnAttackDone(target);
-            Debug.Log(name + " >> " + target.name + ": " + damage);
-        }
+    protected virtual void OnCharacterMoved()
+    {
+        stamina.Value--;
     }
 
     protected virtual void OnAttackDone(Character victim)

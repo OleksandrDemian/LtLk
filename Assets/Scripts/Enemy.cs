@@ -15,31 +15,74 @@ public class Enemy : MCharacterController
     {
         switch (cEvent)
         {
-            case CharacterEvents.TURN_END:
-                CheckPlayer();
+            default:
+                Debug.Log(name + " event: " + cEvent);
                 break;
         }
     }
 
-    private void CheckPlayer()
+    public override bool StartTurn()
     {
-        if (!isAggressive)
-            return;
-
-        Character player = Player.Instance.GetCharacter();
-        if (player.IsStealthy())
-            return;
-
-        if (character.Distance(player) < 2)
-        {
-            //BattleManager battle = new BattleManager(character, player);
-            //battle.StartBattle();
-        }
+        return true;
     }
 
-    public override void OnBattleEnd(bool won, Character enemy)
+    public override void TurnUpdate()
     {
+        bool endTurn = CheckPlayer();
+        if (endTurn)
+            character.EndTurn(true);
+    }
+
+    private bool CheckPlayer()
+    {
+        if (!isAggressive)
+            return true;
         
+        Character player = Player.Instance.GetCharacter();
+        
+        int distance = character.Distance(player);
+
+        if (distance < 3)
+        {
+            //If target is not directly near, check if you can see it
+            if (distance > 1)
+            {
+                if (player.IsStealthy())
+                    return true;
+            }
+            
+            Vector3 dir = player.transform.position - transform.position;
+
+            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+            {
+                int direction = dir.x > 0 ? 1 : -1;
+                character.MoveDirection(direction, 0);
+            }
+            else
+            {
+                int direction = dir.y > 0 ? 1 : -1;
+                character.MoveDirection(0, direction);
+            }
+            return true;
+        }
+        return true;
+    }
+
+    public override bool InteractWith(Entity target)
+    {
+        if (target is Character)
+        {
+            Character c = target as Character;
+            if (c.IsPlayer)
+            {
+                character.Attack(c);
+            }
+        }
+        else
+        {
+            target.Interact(character);
+        }
+        return true;
     }
 
     public override Item GetGold()

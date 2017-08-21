@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public abstract class MCharacterController : MonoBehaviour
 {
@@ -40,9 +41,31 @@ public abstract class MCharacterController : MonoBehaviour
     }
 
     public abstract void CharacterStateListener(CharacterEvents cEvent);
+    public abstract bool StartTurn();
+    public abstract void TurnUpdate();
     public abstract void OnHealthValueChange(int value, int oldValue);
     public abstract void OnDamageValueChange(int value, int oldValue);
     public abstract void OnStaminaValueChange(int value, int oldValue);
-    public abstract void OnBattleEnd(bool won, Character enemy);
     public abstract Item GetGold();
+    public abstract bool InteractWith(Entity target);
+
+    protected IEnumerator AttackAnimation()
+    {
+        yield return null;
+    }
+
+    protected IEnumerator MoveAnimation(Vector3 endPoint)
+    {
+        while (transform.position != endPoint)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * 5);
+            yield return null;
+        }
+        Debug.Log("End move animation!");
+    }
+
+    public void AnimateMovement(Vector3 target)
+    {
+        StartCoroutine(MoveAnimation(target));
+    }
 }

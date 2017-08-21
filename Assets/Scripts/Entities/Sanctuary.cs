@@ -1,8 +1,12 @@
 ﻿public class Sanctuary : Entity
 {
+    public override void Turn()
+    {
+        GameManager.Instance.OnEntityTurnEnd(this);
+    }
+
     public override void Interact(Entity actor)
     {
-        //InformationWindow.ShowInformation("Sanctuary", actor.name + " enters to sanctuary");
         Character c = actor as Character;
         if (c == null)
             return;

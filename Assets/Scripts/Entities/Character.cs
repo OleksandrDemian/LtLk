@@ -24,10 +24,9 @@ public class Character : Entity
 
     protected MCharacterController controller;
 
-    protected override void Start()
+    public override void OnGameStart()
     {
-        base.Start();
-        //InitializeAttributes();
+        base.OnGameStart();
     }
 
     public virtual void InitializeAttributes()
@@ -56,9 +55,12 @@ public class Character : Entity
         else
         {
             MoveToNode(node);
-            transform.position = new Vector3(x, transform.position.y, y);
+            this.x = x;
+            this.y = y;
+            UnityEngine.Debug.Log(name + " Position: " + X + " " + Y);
+            //transform.position = new Vector3(x, transform.position.y, y);
             didSomeAction = true;
-            //controller.AnimateMovement(new Vector3(x, transform.position.y, y));
+            controller.AnimateMovement(new Vector3(x, transform.position.y, y));
         }
         return true;
     }
@@ -273,6 +275,8 @@ public class Character : Entity
         OnAttackDone(target);
 
         Debug.Log(name + " >> " + target.name + ": " + damage);
+        Vector3 animationDirection = (target.transform.position - transform.position)/3;
+        controller.AnimateAttack(animationDirection);
         didSomeAction = true;
     }
 

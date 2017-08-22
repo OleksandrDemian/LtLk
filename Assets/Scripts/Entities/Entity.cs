@@ -4,12 +4,20 @@ using UnityEngine;
 public abstract class Entity : MonoBehaviour
 {
     protected Node currentNode;
+    protected int x;
+    protected int y;
 
     protected virtual void Start()
     {
+        //EntitiesManager.Instance.AddEntity(this);
+    }
+
+    public virtual void OnGameStart()
+    {
+        x = (int)transform.position.x;
+        y = (int)transform.position.z;
         currentNode = MapManager.Instance.GetNode(X, Y);
         currentNode.SetEntity(this);
-        EntitiesManager.Instance.AddEntity(this);
     }
 
     protected virtual void OnDisable()
@@ -29,7 +37,11 @@ public abstract class Entity : MonoBehaviour
     {
         get
         {
-            return (int)transform.position.x;
+            return x;
+        }
+        set
+        {
+            x = value;
         }
     }
 
@@ -37,7 +49,11 @@ public abstract class Entity : MonoBehaviour
     {
         get
         {
-            return (int)transform.position.z;
+            return y;
+        }
+        set
+        {
+            y = value;
         }
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 public abstract class MCharacterController : MonoBehaviour
 {
     protected Character character;
+    protected int animationSpeed = 5;
 
     [SerializeField]
     protected bool initializeCharacter = false;
@@ -18,7 +19,7 @@ public abstract class MCharacterController : MonoBehaviour
     [SerializeField]
     protected string cName = "DefaultName";
 
-    protected virtual void Start ()
+    protected virtual void Awake ()
     {
         character = GetComponent<Character>();
         character.SetController(this);
@@ -49,16 +50,23 @@ public abstract class MCharacterController : MonoBehaviour
     public abstract Item GetGold();
     public abstract bool InteractWith(Entity target);
 
-    protected IEnumerator AttackAnimation()
+    protected IEnumerator AttackAnimation(Vector3 dir)
     {
-        yield return null;
+        Vector3 endPoint = transform.position + dir;
+        while (transform.position != endPoint)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * animationSpeed);
+            yield return null;
+        }
+        transform.position = new Vector3(character.X, transform.position.y, character.Y);
+        Debug.Log("End attack animation!");
     }
 
     protected IEnumerator MoveAnimation(Vector3 endPoint)
     {
         while (transform.position != endPoint)
         {
-            transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * 5);
+            transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * animationSpeed);
             yield return null;
         }
         Debug.Log("End move animation!");
@@ -67,5 +75,10 @@ public abstract class MCharacterController : MonoBehaviour
     public void AnimateMovement(Vector3 target)
     {
         StartCoroutine(MoveAnimation(target));
+    }
+
+    public void AnimateAttack(Vector3 dir)
+    {
+        StartCoroutine(AttackAnimation(dir));
     }
 }

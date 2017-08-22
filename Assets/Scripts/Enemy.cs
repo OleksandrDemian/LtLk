@@ -5,9 +5,9 @@ public class Enemy : MCharacterController
     [SerializeField]
     private bool isAggressive = true;
 
-    protected override void Start()
+    protected override void Awake()
     {
-        base.Start();
+        base.Awake();
         character.SetIsPlayer(false);
     }
 
@@ -29,8 +29,23 @@ public class Enemy : MCharacterController
     public override void TurnUpdate()
     {
         bool endTurn = CheckPlayer();
-        if (endTurn)
-            character.EndTurn(true);
+        EndTurn();
+    }
+
+    private void EndTurn()
+    {
+        if (!character.DidSomeAction)
+        {
+            Sleep();
+        }
+
+        character.EndTurn(true);
+    }
+
+    private void Sleep()
+    {
+        character.GetStamina().Value += 4;
+        character.GetHealth().Value++;
     }
 
     private bool CheckPlayer()

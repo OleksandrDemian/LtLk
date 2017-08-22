@@ -15,7 +15,7 @@ public class Toast : MonoBehaviour, IPoolable
         }
     }
 
-    public static void ShowToast(string text, int seconds)
+    public static void ShowToast(string text, float seconds)
     {
         Toast toast = ObjectPool.Get<Toast>();
         toast.SetText(text, seconds);
@@ -26,13 +26,13 @@ public class Toast : MonoBehaviour, IPoolable
         ShowToast(text, 2);
     }
 
-    public void SetText(string text, int seconds)
+    public void SetText(string text, float seconds)
     {
         this.text.text = text;
-        StartCoroutine(DisableWait(2));
+        StartCoroutine(DisableWait(seconds));
     }
 
-    private IEnumerator DisableWait(int seconds)
+    private IEnumerator DisableWait(float seconds)
     {
         yield return new WaitForSeconds(seconds);
         ObjectPool.Add(this);

@@ -14,7 +14,7 @@
         if (con == null)
             return;
 
-        Choice[] choices = new Choice[4];
+        Choice[] choices = new Choice[5];
         choices[0] = new Choice("Offer 10", delegate()
         {
             Pray(10, con);
@@ -30,6 +30,10 @@
         choices[3] = new Choice("Offer 500", delegate ()
         {
             Pray(500, con);
+        });
+        choices[4] = new Choice("Go away", delegate ()
+        {
+            return;
         });
         ChoiceWindow.Open("Sanctuary", "You are in front of a sanctuary. Try to donnate something and maybe gods will give you something back", choices);
     }

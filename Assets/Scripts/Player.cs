@@ -18,15 +18,15 @@ public class Player : MCharacterController
     private PlayerHUD hud;
     private Inventory inventory;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         Instance = this;
+        character.SetIsPlayer(true);
     }
 
-    protected override void Start()
+    private void Start()
     {
-        base.Start();
-        character.SetIsPlayer(true);
         hud = PlayerHUD.Instance;
 
         EItem gold = new EItem("Gold", 20);
@@ -137,8 +137,9 @@ public class Player : MCharacterController
     public override bool StartTurn()
     {
         EnableMovement(true);
+        CameraController.Instance.SetTarget(transform);
         //InformationWindow.ShowInformation("Turn", "It is your turn now!", false, "playersturn");
-        Toast.ShowToast("It is your turn now!");
+        Toast.ShowToast("It is your turn now!", .5f);
         return true;
     }
 

@@ -27,14 +27,31 @@ public class GameManager : MonoBehaviour, IEventListener
         eventsManager = new EventManager();
         eventsManager.SetListener(this);
         Debug.Log("GM: Start");
+        //StartCoroutine(StartWait());
+        //entities.NextEntityUpdate();
+        LoadEntities();
         StartCoroutine(StartWait());
+    }
+
+    private void LoadEntities()
+    {
+        Entity[] entities = FindObjectsOfType<Entity>();
+        for (int i = 0; i < entities.Length; i++)
+        {
+            this.entities.AddEntity(entities[i]);
+            entities[i].OnGameStart();
+        }
     }
 
     private IEnumerator StartWait()
     {
-        Debug.Log("Start wait!");
-        yield return new WaitForSeconds(1);
-        Debug.Log("Game starts!");
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(1);
+            Debug.Log("Wait: " + (3 - i));
+            Toast.ShowToast("Wait: " + (3 - i), 1);
+        }
+        Debug.Log("Game starts");
         entities.NextEntityUpdate();
     }
 
@@ -46,7 +63,7 @@ public class GameManager : MonoBehaviour, IEventListener
 
     private IEnumerator NextEntity()
     {
-        yield return null;
+        yield return new WaitForSeconds(.1f);
         entities.NextEntityUpdate();
     }
 

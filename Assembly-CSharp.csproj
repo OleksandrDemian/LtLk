@@ -110,11 +110,14 @@
      <Compile Include="Assets\Scripts\Items\EItem.cs" />
      <Compile Include="Assets\Scripts\Items\Inventory.cs" />
      <Compile Include="Assets\Scripts\Items\Item.cs" />
+     <Compile Include="Assets\Scripts\LobbyManager.cs" />
      <Compile Include="Assets\Scripts\MCharacterController.cs" />
      <Compile Include="Assets\Scripts\Map\MapManager.cs" />
      <Compile Include="Assets\Scripts\Map\Node.cs" />
      <Compile Include="Assets\Scripts\ObjectPool.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\PlayerSpawner.cs" />
+     <Compile Include="Assets\Scripts\SceneLoader.cs" />
      <Compile Include="Assets\Scripts\UI\CharacterInfoWindow.cs" />
      <Compile Include="Assets\Scripts\UI\ChoiceButton.cs" />
      <Compile Include="Assets\Scripts\UI\ChoiceWindow.cs" />

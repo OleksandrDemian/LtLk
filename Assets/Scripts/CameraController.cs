@@ -7,7 +7,7 @@ public class CameraController : MonoBehaviour
     [SerializeField][Range(1, 20)]
     private int speed = 10;
     private Transform target;
-    private Vector3 offset = Vector3.zero;
+    private Vector3 offset = new Vector3(-6, 14, -10);
 
     public static CameraController Instance
     {
@@ -22,8 +22,8 @@ public class CameraController : MonoBehaviour
 
     private void Start ()
     {
-        target = Player.Instance.transform;
-        offset = transform.position - target.position;
+        //target = Player.Instance.transform;
+        //offset = transform.position - target.position;
 	}
 
     public void SetTarget(Transform target)

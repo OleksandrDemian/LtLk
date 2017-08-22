@@ -7,11 +7,6 @@ public abstract class Entity : MonoBehaviour
     protected int x;
     protected int y;
 
-    protected virtual void Start()
-    {
-        //EntitiesManager.Instance.AddEntity(this);
-    }
-
     public virtual void OnGameStart()
     {
         x = (int)transform.position.x;

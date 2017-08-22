@@ -18,17 +18,28 @@ public class Player : MCharacterController
     private PlayerHUD hud;
     private Inventory inventory;
 
-    protected override void Awake()
+    public override void Initialize(Character character)
     {
-        base.Awake();
+        base.Initialize(character);
         Instance = this;
         character.SetIsPlayer(true);
+        InitializeInventory();
+        InitializeHUD();
+        CameraController.Instance.SetTarget(transform);
     }
 
-    private void Start()
+    private void InitializeHUD()
     {
         hud = PlayerHUD.Instance;
 
+        hud.SetName(name);
+        hud.SetGold(GetGold().GetQty());
+        hud.SetStamina(character.GetStamina().Value);
+        hud.SetHealth(character.GetHealth().Value);
+    }
+
+    private void InitializeInventory()
+    {
         EItem gold = new EItem("Gold", 20);
         EItem healthPotion = new EItem("Health potion", 2);
         EItem staminaPotion = new EItem("Stamina potion", 2);
@@ -41,11 +52,6 @@ public class Player : MCharacterController
         gold.SetListener(OnGoldQtyChange);
         healthPotion.SetListener(OnHealthPotionQtyChange);
         staminaPotion.SetListener(OnStaminaPotionQtyChange);
-
-        hud.SetName(name);
-        hud.SetGold(gold.GetQty());
-        hud.SetStamina(character.GetStamina().Value);
-        hud.SetHealth(character.GetHealth().Value);
     }
 
     private void Update()

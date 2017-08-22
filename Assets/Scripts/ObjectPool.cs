@@ -64,7 +64,7 @@ public class ObjectPool : MonoBehaviour
         for (int i = 0; i < Instance.prefs.Length; i++)
         {
             if (Instance.prefs[i].name == name)
-                return Instance.prefs[i];
+                return Instantiate(Instance.prefs[i]);
         }
         throw new System.Exception("There is no " + name);
     }

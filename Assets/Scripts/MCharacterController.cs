@@ -19,9 +19,8 @@ public abstract class MCharacterController : MonoBehaviour
     [SerializeField]
     protected string cName = "DefaultName";
 
-    protected virtual void Awake ()
+    public virtual void Initialize (Character character)
     {
-        character = GetComponent<Character>();
         character.SetController(this);
         if (initializeCharacter)
         {
@@ -34,6 +33,7 @@ public abstract class MCharacterController : MonoBehaviour
         {
             character.InitializeAttributes();
         }
+        this.character = character;
     }
 
     public Character GetCharacter()

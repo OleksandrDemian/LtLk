@@ -5,9 +5,9 @@ public class Enemy : MCharacterController
     [SerializeField]
     private bool isAggressive = true;
 
-    protected override void Awake()
+    public override void Initialize(Character character)
     {
-        base.Awake();
+        base.Initialize(character);
         character.SetIsPlayer(false);
     }
 

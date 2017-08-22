@@ -27,6 +27,8 @@ public class Character : Entity
     public override void OnGameStart()
     {
         base.OnGameStart();
+        MCharacterController c = GetComponent<MCharacterController>();
+        c.Initialize(this);
     }
 
     public virtual void InitializeAttributes()

@@ -26,9 +26,9 @@ public class GameManager : MonoBehaviour, IEventListener
         map.GenerateMap();
         eventsManager = new EventManager();
         eventsManager.SetListener(this);
-        Debug.Log("GM: Start");
-        //StartCoroutine(StartWait());
-        //entities.NextEntityUpdate();
+
+        PlayerSpawner.Instance.SpawnPlayer();
+
         LoadEntities();
         StartCoroutine(StartWait());
     }
@@ -47,11 +47,9 @@ public class GameManager : MonoBehaviour, IEventListener
     {
         for (int i = 0; i < 3; i++)
         {
-            yield return new WaitForSeconds(1);
-            Debug.Log("Wait: " + (3 - i));
             Toast.ShowToast("Wait: " + (3 - i), 1);
+            yield return new WaitForSeconds(1);
         }
-        Debug.Log("Game starts");
         entities.NextEntityUpdate();
     }
 

@@ -1,34 +1,21 @@
 ﻿using UnityEngine;
 
-public enum CharacterEvents
-{
-    HEALTH_CHANGE,
-    STAMINA_CHANGE,
-    DAMAGE_CHANGE,
-    DEAD,
-    TURN_END,
-    BATTLE_WON,
-    BATTLE_START,
-    TURN_START
-}
-
 public class Character : Entity
 {
     protected Attribute health;
     protected Attribute damage;
     protected Attribute stamina;
-
     protected bool didSomeAction = false;
-
     private bool isPlayer = false;
-
+    protected Inventory inventory;
     protected MCharacterController controller;
 
     public override void OnGameStart()
     {
         base.OnGameStart();
-        MCharacterController c = GetComponent<MCharacterController>();
-        c.Initialize(this);
+        inventory = new Inventory();
+        controller = GetComponent<MCharacterController>();
+        controller.Initialize(this);
     }
 
     public virtual void InitializeAttributes()
@@ -51,15 +38,16 @@ public class Character : Entity
         if (node.HasEntity())
         {
             //node.GetEntity().Interact(this);
-            if(controller.InteractWith(node.GetEntity()))
+            if (controller.InteractWith(node.GetEntity()))
                 didSomeAction = true;
+            else
+                return false;
         }
         else
         {
             MoveToNode(node);
             this.x = x;
             this.y = y;
-            UnityEngine.Debug.Log(name + " Position: " + X + " " + Y);
             //transform.position = new Vector3(x, transform.position.y, y);
             didSomeAction = true;
             controller.AnimateMovement(new Vector3(x, transform.position.y, y));
@@ -129,6 +117,18 @@ public class Character : Entity
 
     #endregion
 
+    #region RestoreAttributes
+    public virtual void RestoreHealth(int amount)
+    {
+        health.Value += amount;
+    }
+
+    public virtual void RestoreStamina(int amount)
+    {
+        stamina.Value += amount;
+    }
+    #endregion
+
     public bool DidSomeAction
     {
         set
@@ -143,7 +143,11 @@ public class Character : Entity
 
     public void Death()
     {
-        controller.CharacterStateListener(CharacterEvents.DEAD);
+        bool isDead = OnCharacterDeath();
+        if (!isDead)
+            return;
+
+        controller.OnCharacterDead();
         gameObject.SetActive(false);
     }
 
@@ -158,13 +162,6 @@ public class Character : Entity
     public override void Interact(Entity actor)
     {
         return;
-        /*
-        if (actor is Character)
-        {
-            BattleManager battle = new BattleManager(this, actor as Character);
-            battle.StartBattle();
-        }
-        */
     }
 
     public virtual bool IsStealthy()
@@ -172,16 +169,16 @@ public class Character : Entity
         return false;
     }
 
-    public void SetController(MCharacterController controller)
-    {
-        this.controller = controller;
-    }
-
     public MCharacterController GetController()
     {
         return controller;
     }
 
+    /// <summary>
+    /// Decrease health value by amount
+    /// </summary>
+    /// <param name="amount"></param>
+    /// <param name="actor"></param>
     public virtual void ApplyDamage(int amount, Character actor)
     {
         health.Value -= amount;
@@ -211,15 +208,8 @@ public class Character : Entity
     }
 
     public override void Turn()
-    {        
-        if (!controller.StartTurn())
-        {
-            EndTurn(false);
-            return;
-        }
-        
+    {
         didSomeAction = false;
-        OnTurnStart();
         controller.TurnUpdate();
     }
 
@@ -227,21 +217,14 @@ public class Character : Entity
     {
 
     }
-
-    public void EndTurn(bool onTurnEnd)
-    {
-        if(onTurnEnd)
-            OnTurnEnd();
-        GameManager.Instance.OnEntityTurnEnd(this);
-    }
-
     #endregion
 
     public virtual void GenerateLoot(Player player)
     {
         float mod = (GetPower() / 50f);
         int gold = (int)(Random.Range(10, 20) * mod);
-        player.AddGold(gold);
+        Item goldI = player.GetCharacter().GetInventory().GetItem("Gold");
+        goldI.AddQty(gold);
         InformationWindow.ShowInformation("Gold!", "You have found " + gold + " gold on " + name);
     }
 
@@ -274,12 +257,17 @@ public class Character : Entity
     {
         int damage = CalculateDamage();
         target.ApplyDamage(damage, this);
+
+        if (!IsAlive())
+        {
+            return;
+        }
+
         OnAttackDone(target);
 
         Debug.Log(name + " >> " + target.name + ": " + damage);
         Vector3 animationDirection = (target.transform.position - transform.position)/3;
         controller.AnimateAttack(animationDirection);
-        didSomeAction = true;
     }
 
     protected virtual void OnCharacterMoved()
@@ -291,4 +279,31 @@ public class Character : Entity
     {
         stamina.Value--;
     }
+
+    protected virtual bool OnCharacterDeath()
+    {
+        return true;
+    }
+
+    #region Inventory
+    public Inventory GetInventory()
+    {
+        return inventory;
+    }
+
+    public Item GetGold()
+    {
+        return inventory.GetItem("Gold");
+    }
+
+    public Item GetHealthPotions()
+    {
+        return inventory.GetItem("Health potion");
+    }
+
+    public Item GetStaminaPotions()
+    {
+        return inventory.GetItem("Stamina potion");
+    }
+    #endregion
 }

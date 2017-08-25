@@ -11,8 +11,9 @@ public class GameManager : MonoBehaviour, IEventListener
     }
 
     private MapManager map;
-    private EventManager eventsManager;
+    private EventsManager eventsManager;
     private EntitiesManager entities;
+    //private int currentTurn = 0;
 
     private void Awake()
     {
@@ -24,7 +25,7 @@ public class GameManager : MonoBehaviour, IEventListener
 	private void Start ()
     {
         map.GenerateMap();
-        eventsManager = new EventManager();
+        eventsManager = new EventsManager();
         eventsManager.SetListener(this);
 
         PlayerSpawner.Instance.SpawnPlayer();
@@ -61,7 +62,7 @@ public class GameManager : MonoBehaviour, IEventListener
 
     private IEnumerator NextEntity()
     {
-        yield return new WaitForSeconds(.1f);
+        yield return null;
         entities.NextEntityUpdate();
     }
 
@@ -83,7 +84,6 @@ public class GameManager : MonoBehaviour, IEventListener
     public void OnEventsEnd()
     {
         eventsManager.ResetEvents();
-        //Player.Instance.EnableMovement(true);
         entities.NextEntityUpdate();
     }
 }

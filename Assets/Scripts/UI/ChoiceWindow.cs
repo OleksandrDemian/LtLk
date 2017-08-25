@@ -70,6 +70,6 @@ public class ChoiceWindow : MonoBehaviour, IPoolable
     {
         ObjectPool.Add(this);
         if (isEvent)
-            EventManager.Instance.Next();
+            EventsManager.Instance.Next();
     }
 }

@@ -24,6 +24,7 @@ public abstract class Entity : MonoBehaviour
     {
         currentNode.ReleaseEntity();
         EntitiesManager.Instance.RemoveEntity(this);
+        Debug.Log(name + " is disabled!");
     }
 
     public abstract void ShowInfo();

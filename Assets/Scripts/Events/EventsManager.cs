@@ -1,18 +1,18 @@
 ﻿using System.Collections.Generic;
 
-public class EventManager
+public class EventsManager
 {
     private List<Event> events;
     private int index = 0;
     private IEventListener listener;
 
-    public static EventManager Instance
+    public static EventsManager Instance
     {
         get;
         private set;
     }
 
-    public EventManager()
+    public EventsManager()
     {
         Instance = this;
         events = new List<Event>();

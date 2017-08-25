@@ -24,7 +24,9 @@ public class EntitiesManager
 
     public void RemoveEntity(Entity entity)
     {
+        UnityEngine.Debug.Log(entity.name + " is going to be removed! " + entities.Count);
         entities.Remove(entity);
+        UnityEngine.Debug.Log(entity.name + " removed! " + entities.Count);
     }
 
     //Problem: if I remove entity after turn, currentEntity will be wrong(maybe it will give an error)

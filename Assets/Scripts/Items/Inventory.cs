@@ -19,15 +19,27 @@ public class Inventory
             exist.AddQty(item.GetQty());
     }
 
+    public void AddItem(Item item, bool ignoreExist)
+    {
+        if (ignoreExist)
+            items.Add(item);
+        else
+            AddItem(item);
+    }
+
     public Item GetItem(string name)
     {
         int size = items.Count;
         for (int i = 0; i < size; i++)
         {
+            UnityEngine.Debug.Log("Looking for: " + name + " now: " + items[i].GetName());
             if (items[i].GetName() == name)
                 return items[i];
         }
-        return null;
+        
+        Item item = new Item(name, 0);
+        items.Add(item);
+        return item;
     }
 
     public void RemoveItem(string name)

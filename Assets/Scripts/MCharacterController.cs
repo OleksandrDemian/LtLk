@@ -19,9 +19,10 @@ public abstract class MCharacterController : MonoBehaviour
     [SerializeField]
     protected string cName = "DefaultName";
 
+    protected bool isAnimated = false;
+
     public virtual void Initialize (Character character)
     {
-        character.SetController(this);
         if (initializeCharacter)
         {
             character.SetHealth(defaultHealth);
@@ -41,14 +42,19 @@ public abstract class MCharacterController : MonoBehaviour
         return character;
     }
 
-    public abstract void CharacterStateListener(CharacterEvents cEvent);
     public abstract bool StartTurn();
     public abstract void TurnUpdate();
     public abstract void OnHealthValueChange(int value, int oldValue);
     public abstract void OnDamageValueChange(int value, int oldValue);
     public abstract void OnStaminaValueChange(int value, int oldValue);
-    public abstract Item GetGold();
     public abstract bool InteractWith(Entity target);
+    protected abstract void EndTurn();
+
+    public virtual void OnCharacterDead()
+    {
+        //StopAllCoroutines();
+        Debug.Log(name + " is dead!");
+    }
 
     protected IEnumerator AttackAnimation(Vector3 dir)
     {
@@ -59,6 +65,7 @@ public abstract class MCharacterController : MonoBehaviour
             yield return null;
         }
         transform.position = new Vector3(character.X, transform.position.y, character.Y);
+        OnAnimationEnd();
         Debug.Log("End attack animation!");
     }
 
@@ -69,16 +76,31 @@ public abstract class MCharacterController : MonoBehaviour
             transform.position = Vector3.MoveTowards(transform.position, endPoint, Time.deltaTime * animationSpeed);
             yield return null;
         }
+        OnAnimationEnd();
         Debug.Log("End move animation!");
     }
 
     public void AnimateMovement(Vector3 target)
     {
+        isAnimated = true;
         StartCoroutine(MoveAnimation(target));
     }
 
     public void AnimateAttack(Vector3 dir)
     {
+        isAnimated = true;
         StartCoroutine(AttackAnimation(dir));
+    }
+
+    protected void OnAnimationEnd()
+    {
+        isAnimated = false;
+        ControllerEndTurn();
+    }
+
+    protected void ControllerEndTurn()
+    {
+        Debug.Log(name + " ends turn!");
+        GameManager.Instance.OnEntityTurnEnd(character);
     }
 }

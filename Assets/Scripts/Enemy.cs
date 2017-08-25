@@ -9,49 +9,54 @@ public class Enemy : MCharacterController
     {
         base.Initialize(character);
         character.SetIsPlayer(false);
+        Item gold = new Item("Gold", 20);
+        character.GetInventory().AddItem(gold, true);
     }
 
-    public override void CharacterStateListener(CharacterEvents cEvent)
+    public override void OnCharacterDead()
     {
-        switch (cEvent)
-        {
-            default:
-                Debug.Log(name + " event: " + cEvent);
-                break;
-        }
+        base.OnCharacterDead();
     }
 
     public override bool StartTurn()
     {
+        if (character.GetStamina().Value < 1)
+            return false;
+
         return true;
     }
 
     public override void TurnUpdate()
     {
-        bool endTurn = CheckPlayer();
+        if (StartTurn())
+        {
+            character.OnTurnStart();
+            CheckPlayer();
+        }
         EndTurn();
     }
 
-    private void EndTurn()
+    protected override void EndTurn()
     {
         if (!character.DidSomeAction)
         {
             Sleep();
         }
 
-        character.EndTurn(true);
+        if (!isAnimated)
+            ControllerEndTurn();
     }
 
     private void Sleep()
     {
-        character.GetStamina().Value += 4;
-        character.GetHealth().Value++;
+        character.RestoreStamina(4);
+        character.RestoreHealth(1);
     }
 
     private bool CheckPlayer()
     {
         if (!isAggressive)
-            return true;
+            return false;
         
         Character player = Player.Instance.GetCharacter();
         
@@ -63,24 +68,24 @@ public class Enemy : MCharacterController
             if (distance > 1)
             {
                 if (player.IsStealthy())
-                    return true;
+                    return false;
             }
             
             Vector3 dir = player.transform.position - transform.position;
 
-            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.y))
+            if (Mathf.Abs(dir.x) > Mathf.Abs(dir.z))
             {
                 int direction = dir.x > 0 ? 1 : -1;
                 character.MoveDirection(direction, 0);
             }
             else
             {
-                int direction = dir.y > 0 ? 1 : -1;
+                int direction = dir.z > 0 ? 1 : -1;
                 character.MoveDirection(0, direction);
             }
             return true;
         }
-        return true;
+        return false;
     }
 
     public override bool InteractWith(Entity target)
@@ -98,11 +103,6 @@ public class Enemy : MCharacterController
             target.Interact(character);
         }
         return true;
-    }
-
-    public override Item GetGold()
-    {
-        return new Item("Gold", 50);
     }
 
     #region AttributesValueHandlers

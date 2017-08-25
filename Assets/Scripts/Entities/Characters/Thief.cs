@@ -35,8 +35,8 @@ public class Thief : Character
         if (Success(steelGoldProbability, name + " steals gold"))
         {
             int qty = UnityEngine.Random.Range(0, 4);
-            actor.GetController().GetGold().AddQty(-qty);
-            GetController().GetGold().AddQty(qty);
+            Item gold = actor.GetInventory().GetItem("Gold");
+            gold.GetQty(qty);
         }
     }
     /*
@@ -67,7 +67,7 @@ public class Thief : Character
                 gold *= 2;
 
             Toast.ShowToast("You have found " + gold + " gold!", 1);
-            controller.GetGold().AddQty(gold);
+            inventory.GetItem("Gold").AddQty(gold);
         }
     }
 

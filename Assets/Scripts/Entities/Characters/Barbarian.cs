@@ -20,9 +20,7 @@ public class Barbarian : Character
     }
 
     public override void ApplyDamage(int amount, Character actor)
-    {
-        base.ApplyDamage(amount, actor);
-        
+    {        
         if (Success(decreaseEnemyStaminaProbability, name + " decreases enemy stamina"))
         {
             actor.GetStamina().Value--;
@@ -32,6 +30,8 @@ public class Barbarian : Character
         {
             stamina.Value++;
         }
+
+        base.ApplyDamage(amount, actor);
     }
 
     protected override void OnAttackDone(Character victim)

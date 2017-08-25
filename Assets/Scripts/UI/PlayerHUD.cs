@@ -69,6 +69,6 @@ public class PlayerHUD : MonoBehaviour
 
     public void EndTurn()
     {
-        Player.Instance.EndTurn();
+        Player.Instance.Rest();
     }
 }

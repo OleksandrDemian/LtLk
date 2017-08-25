@@ -3,10 +3,22 @@
     protected string name;
     protected int qty = 0;
 
+    protected virtual int Value
+    {
+        get
+        {
+            return qty;
+        }
+        set
+        {
+            qty = value;
+        }
+    }
+
     public Item(string name, int qty)
     {
         this.name = name;
-        this.qty = qty;
+        Value = qty;
     }
 
     public int GetQty()
@@ -16,22 +28,58 @@
 
     public virtual void SetQty(int qty)
     {
-        this.qty = qty;
+        Value = qty;
     }
 
     public virtual void AddQty(int qty)
     {
-        this.qty += qty;
+        Value += qty;
     }
 
     public virtual void Decrease()
     {
-        qty--;
+        Value--;
     }
 
     public virtual void Increase()
     {
-        qty++;
+        Value++;
+    }
+
+    public virtual int GetQty(int q)
+    {
+        if (qty > q)
+        {
+            Value -= q;
+            return q;
+        }
+        else
+        {
+            int toRet = q - qty;
+            Value = 0;
+            return toRet;
+        }
+    }
+
+    public virtual bool Get(int qty)
+    {
+        if (Value >= qty)
+        {
+            Value -= qty;
+            return true;
+        }
+
+        return false;
+    }
+
+    public virtual bool Get()
+    {
+        if (qty > 0)
+        {
+            Decrease();
+            return true;
+        }
+        return false;
     }
 
     public string GetName()

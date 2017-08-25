@@ -20,12 +20,6 @@ public class CameraController : MonoBehaviour
         Instance = this;
     }
 
-    private void Start ()
-    {
-        //target = Player.Instance.transform;
-        //offset = transform.position - target.position;
-	}
-
     public void SetTarget(Transform target)
     {
         this.target = target;

@@ -6,7 +6,7 @@ public class Event
 
     public Event()
     {
-        EventManager.Instance.AddEvent(this);
+        EventsManager.Instance.AddEvent(this);
     }
 
     public void Trigger()

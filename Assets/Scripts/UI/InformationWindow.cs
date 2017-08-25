@@ -59,7 +59,7 @@ public class InformationWindow : MonoBehaviour, IPoolable
     {
         ObjectPool.Add(this);
         if (isEvent)
-            EventManager.Instance.Next();
+            EventsManager.Instance.Next();
         else
             activeWindows.Remove(wtag);
     }

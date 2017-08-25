@@ -11,34 +11,37 @@ public class Loot : Entity
 
     public override void Interact(Entity actor)
     {
-        string msg = "You get:\n";
+        if (!(actor is Character))
+            throw new System.Exception("There is something wrong: not a character is going to interact with a loot!");
+
+        Character cActor = actor as Character;
+
+        string msg = cActor.name + " get:\n";
 
         int gold = Random.Range(10, 20);
         int hPotions = Random.Range(0, 100);
         int sPotions = Random.Range(0, 100);
         int equipment = Random.Range(0, 100);
-
-        Player p = Player.Instance;
-
+        
         msg += "Gold: " + gold + "\n";
-        p.AddGold(gold);
+        cActor.GetGold().AddQty(gold);
 
         if (hPotions > probability)
         {
             msg += "Health potion\n";
-            p.AddHealthPotion(1);
+            cActor.GetHealthPotions().Increase();
         }
 
         if (sPotions > probability)
         {
             msg += "Stamina potion\n";
-            p.AddStaminaPotion(1);
+            cActor.GetStaminaPotions().Increase();
         }
 
         if (equipment > probability)
         {
             int amount = Random.Range(1, 4);
-            Attribute damage = p.GetCharacter().GetDamage();
+            Attribute damage = cActor.GetDamage();
             damage.IncreaseDefaultValue(amount);
             damage.ResetValue();
             msg += "Better equipment (+" + amount + " to damage)";

@@ -118,7 +118,7 @@ public class MapManager
             for (int x = 0; x < width; x++)
             {
                 GameObject ground = ObjectPool.Get("Cube");
-                MonoBehaviour.Instantiate(ground, new Vector3(x, Random.Range(0f, 0.1f), y), Quaternion.identity);
+                ground.transform.position = new Vector3(x, Random.Range(0f, 0.1f), y);
             }
         }
     }

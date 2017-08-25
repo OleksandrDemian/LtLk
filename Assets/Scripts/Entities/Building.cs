@@ -18,9 +18,10 @@
         choices[1] = new Choice("Training (" + trainingGoldRequired + " gold)", delegate ()
         {
             Player p = Player.Instance;
-            if (p.GetGold().GetQty() >= trainingGoldRequired)
+            Item gold = p.GetCharacter().GetGold();
+
+            if (gold.Get(trainingGoldRequired))
             {
-                p.AddGold(-trainingGoldRequired);
                 p.Training(1);
                 trainingGoldRequired += 20;
             }
@@ -32,11 +33,11 @@
 
         choices[2] = new Choice("Buy health potion (10 gold)", delegate()
         {
-            Player p = Player.Instance;
-            if (p.GetGold().GetQty() >= 10)
+            Inventory i = Player.Instance.GetCharacter().GetInventory();
+            Item gold = Player.Instance.GetCharacter().GetGold();
+            if (gold.Get(10))
             {
-                p.AddGold(-10);
-                p.AddHealthPotion(1);
+                i.AddItem(new Item("Health potion", 1));
             }
             else
             {
@@ -46,11 +47,11 @@
 
         choices[3] = new Choice("Buy stamina potion (10 gold)", delegate()
         {
-            Player p = Player.Instance;
-            if (p.GetGold().GetQty() >= 10)
+            Inventory i = Player.Instance.GetCharacter().GetInventory();
+            Item gold = Player.Instance.GetCharacter().GetGold();
+            if (gold.Get(10))
             {
-                p.AddGold(-10);
-                p.AddStaminaPotion(1);
+                i.AddItem(new Item("Stamina potion", 1));
             }
             else
             {

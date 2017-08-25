@@ -16,7 +16,6 @@ public class Player : MCharacterController
     }
     private bool movementEnabled = false;
     private PlayerHUD hud;
-    private Inventory inventory;
 
     public override void Initialize(Character character)
     {
@@ -33,7 +32,7 @@ public class Player : MCharacterController
         hud = PlayerHUD.Instance;
 
         hud.SetName(name);
-        hud.SetGold(GetGold().GetQty());
+        hud.SetGold(character.GetInventory().GetItem("Gold").GetQty());
         hud.SetStamina(character.GetStamina().Value);
         hud.SetHealth(character.GetHealth().Value);
     }
@@ -44,10 +43,12 @@ public class Player : MCharacterController
         EItem healthPotion = new EItem("Health potion", 2);
         EItem staminaPotion = new EItem("Stamina potion", 2);
 
-        inventory = new Inventory();
-        inventory.AddItem(gold);
-        inventory.AddItem(healthPotion);
-        inventory.AddItem(staminaPotion);
+        Inventory inventory = character.GetInventory();
+        inventory.AddItem(gold, true);
+        inventory.AddItem(healthPotion, true);
+        inventory.AddItem(staminaPotion, true);
+
+        Debug.Log("Player has gold: " + inventory.Has("Gold"));
 
         gold.SetListener(OnGoldQtyChange);
         healthPotion.SetListener(OnHealthPotionQtyChange);
@@ -117,7 +118,6 @@ public class Player : MCharacterController
         bool moved = character.MoveDirection(x, y);
         if (moved)
         {
-            //GameManager.Instance.PlayerEvent(PlayerEvents.ENDTURN);
             EndTurn();
         }
         else
@@ -126,32 +126,29 @@ public class Player : MCharacterController
         }
     }
 
-    public override void CharacterStateListener(CharacterEvents cEvent)
+    public override void OnCharacterDead()
     {
-        switch (cEvent)
-        {
-            case CharacterEvents.DEAD:
-                GameManager.Instance.PlayerEvent(PlayerEvents.DEAD);
-                break;
-            case CharacterEvents.TURN_END:
-                EnableMovement(false);
-                EndTurn();
-                break;
-        }
+        base.OnCharacterDead();
+        GameManager.Instance.PlayerEvent(PlayerEvents.DEAD);
     }
 
     public override bool StartTurn()
     {
-        EnableMovement(true);
-        CameraController.Instance.SetTarget(transform);
-        //InformationWindow.ShowInformation("Turn", "It is your turn now!", false, "playersturn");
-        Toast.ShowToast("It is your turn now!", .5f);
-        return true;
+        if (character.GetStamina().Value > 0)
+        {
+            EnableMovement(true);
+            CameraController.Instance.SetTarget(transform);
+            //InformationWindow.ShowInformation("Turn", "It is your turn now!", false, "playersturn");
+            Toast.ShowToast("It is your turn now!", .5f);
+            return true;
+        }
+        return false;
     }
 
     public override void TurnUpdate()
     {
-        
+        if (!StartTurn())
+            EndTurn();
     }
 
     public void EnableMovement(bool action)
@@ -161,26 +158,28 @@ public class Player : MCharacterController
 
     public void Sleep()
     {
-        if (!movementEnabled)
-            return;
-
-        character.GetStamina().Value += 4;
-        character.GetHealth().Value++;
+        character.RestoreStamina(4);
+        character.RestoreHealth(1);
         InformationWindow.ShowInformation("Sleep", "You have slept for a while and now you feel better!");
     }
 
-    public void EndTurn()
+    protected override void EndTurn()
     {
-        if (!movementEnabled)
-            return;
-
         if (!character.DidSomeAction)
         {
             Sleep();
         }
 
         EnableMovement(false);
-        character.EndTurn(true);
+
+        if (!isAnimated)
+            ControllerEndTurn();
+    }
+
+    public void Rest()
+    {
+        if (movementEnabled)
+            EndTurn();
     }
 
     public override bool InteractWith(Entity target)
@@ -198,14 +197,6 @@ public class Player : MCharacterController
             target.Interact(character);
         }
         return true;
-    }
-
-    public Inventory Inventory
-    {
-        get
-        {
-            return inventory;
-        }
     }
 
     #region AttributesValueHandlers
@@ -227,37 +218,7 @@ public class Player : MCharacterController
 
     #endregion
 
-    #region GoldManagment
-    public void SetGold(int qty)
-    {
-        Item gold = inventory.GetItem("Gold");
-        gold.SetQty(qty);
-    }
-
-    public void AddGold(int qty)
-    {
-        Item gold = inventory.GetItem("Gold");
-        gold.AddQty(qty);
-    }
-
-    public override Item GetGold()
-    {
-        Item gold = inventory.GetItem("Gold");
-        return gold;
-    }
-    #endregion
-
     #region PotionsManagment
-
-    public void AddHealthPotion(int qty)
-    {
-        inventory.AddItem(new Item("Health potion", qty));
-    }
-
-    public void AddStaminaPotion(int qty)
-    {
-        inventory.AddItem(new Item("Stamina potion", qty));
-    }
 
     public void OnStaminaPotionQtyChange(int value)
     {
@@ -278,10 +239,10 @@ public class Player : MCharacterController
     {
         if (!movementEnabled)
             return;
-        Item hp = inventory.GetItem("Health potion");
-        if (hp.GetQty() > 0)
+
+        Item hp = character.GetHealthPotions();
+        if (hp.Get())
         {
-            hp.Decrease();
             character.GetHealth().ResetValue();
         }
     }
@@ -291,10 +252,9 @@ public class Player : MCharacterController
         if (!movementEnabled)
             return;
 
-        Item sp = inventory.GetItem("Stamina potion");
-        if (sp.GetQty() > 0)
+        Item sp = character.GetStaminaPotions();
+        if (sp.Get())
         {
-            sp.Decrease();
             character.GetStamina().ResetValue();
         }
     }

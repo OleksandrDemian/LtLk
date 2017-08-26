@@ -72,7 +72,10 @@ public abstract class Entity : MonoBehaviour
     {
         bool success = Success(probability);
         if (success)
+        {
             Debug.Log(label);
+            HistoryTracer.Instance.AddToHistory(label);
+        }
 
         return success;
     }

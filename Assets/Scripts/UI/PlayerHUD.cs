@@ -49,12 +49,12 @@ public class PlayerHUD : MonoBehaviour
 
     public void SetHealthPotions(int qty)
     {
-        pHealthPotions.text = "Health potions: " + qty;
+        pHealthPotions.text = qty.ToString();
     }
 
     public void SetStaminaPotion(int qty)
     {
-        pStaminaPotions.text = "Stamina potions: " + qty;
+        pStaminaPotions.text = qty.ToString();
     }
 
     public void DrinkHealthPotion()

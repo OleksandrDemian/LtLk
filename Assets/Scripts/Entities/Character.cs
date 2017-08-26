@@ -181,6 +181,7 @@ public class Character : Entity
     /// <param name="actor"></param>
     public virtual void ApplyDamage(int amount, Character actor)
     {
+        HistoryTracer.Instance.AddToHistory(actor.name + ">>" + name + ": " + amount);
         health.Value -= amount;
     }
 

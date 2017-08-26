@@ -50,4 +50,9 @@ public class Node
     {
         return landscape;
     }
+
+    public void SetLandscape(LandscapeType landscape)
+    {
+        this.landscape = landscape;
+    }
 }

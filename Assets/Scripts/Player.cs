@@ -48,8 +48,6 @@ public class Player : MCharacterController
         inventory.AddItem(healthPotion, true);
         inventory.AddItem(staminaPotion, true);
 
-        Debug.Log("Player has gold: " + inventory.Has("Gold"));
-
         gold.SetListener(OnGoldQtyChange);
         healthPotion.SetListener(OnHealthPotionQtyChange);
         staminaPotion.SetListener(OnStaminaPotionQtyChange);

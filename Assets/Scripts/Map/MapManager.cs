@@ -55,7 +55,10 @@ public class MapManager
         {
             for (int x = 0; x < width; x++)
             {
+                int type = Random.Range(0, 100);
+
                 map[x, y] = new Node(true);
+                map[x, y].SetLandscape((type < 70) ? LandscapeType.FIELD : LandscapeType.FOREST);
             }
         }
     }
@@ -117,8 +120,8 @@ public class MapManager
         {
             for (int x = 0; x < width; x++)
             {
-                GameObject ground = ObjectPool.Get("Cube");
-                ground.transform.position = new Vector3(x, Random.Range(0f, 0.1f), y);
+                GameObject ground = ObjectPool.Get(map[x,y].GetLandScape().ToString() + Random.Range(0, 2));
+                ground.transform.position = new Vector3(x, 0, y);
             }
         }
     }

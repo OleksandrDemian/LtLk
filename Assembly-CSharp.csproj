@@ -124,8 +124,10 @@
      <Compile Include="Assets\Scripts\UI\CharacterInfoWindow.cs" />
      <Compile Include="Assets\Scripts\UI\ChoiceButton.cs" />
      <Compile Include="Assets\Scripts\UI\ChoiceWindow.cs" />
+     <Compile Include="Assets\Scripts\UI\HistoryTracer.cs" />
      <Compile Include="Assets\Scripts\UI\InformationWindow.cs" />
      <Compile Include="Assets\Scripts\UI\PlayerHUD.cs" />
+     <Compile Include="Assets\Scripts\UI\PopUp.cs" />
      <Compile Include="Assets\Scripts\UI\Toast.cs" />
      <Compile Include="Assets\Scripts\XML\XmlReader.cs" />
      <None Include="Assets\CameraEffects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

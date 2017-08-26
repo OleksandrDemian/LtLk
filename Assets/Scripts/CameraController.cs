@@ -1,13 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField][Range(1, 20)]
     private int speed = 10;
     private Transform target;
-    private Vector3 offset = new Vector3(-6, 14, -10);
+    private Vector3 offset = new Vector3(0, 3, -2.5f);
 
     public static CameraController Instance
     {

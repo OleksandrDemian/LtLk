@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour, IEventListener
     private MapManager map;
     private EventsManager eventsManager;
     private EntitiesManager entities;
-    //private int currentTurn = 0;
+    private int currentTurn = 1;
 
     private void Awake()
     {
@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour, IEventListener
             Toast.ShowToast("Wait: " + (3 - i), 1);
             yield return new WaitForSeconds(1);
         }
+        HistoryTracer.Instance.AddToHistory("Game started");
         entities.NextEntityUpdate();
     }
 
@@ -78,6 +79,8 @@ public class GameManager : MonoBehaviour, IEventListener
 
     public void TurnEnd()
     {
+        HistoryTracer.Instance.AddToHistory("Turn " + currentTurn + " ends!");
+        currentTurn++;
         eventsManager.Next();
     }
 
@@ -85,5 +88,10 @@ public class GameManager : MonoBehaviour, IEventListener
     {
         eventsManager.ResetEvents();
         entities.NextEntityUpdate();
+    }
+
+    public int GetCurrentTurn()
+    {
+        return currentTurn;
     }
 }

@@ -53,7 +53,7 @@ public abstract class MCharacterController : MonoBehaviour
     public virtual void OnCharacterDead()
     {
         //StopAllCoroutines();
-        Debug.Log(name + " is dead!");
+        HistoryTracer.Instance.AddToHistory(name + " is dead!");
     }
 
     protected IEnumerator AttackAnimation(Vector3 dir)
@@ -77,7 +77,6 @@ public abstract class MCharacterController : MonoBehaviour
             yield return null;
         }
         OnAnimationEnd();
-        Debug.Log("End move animation!");
     }
 
     public void AnimateMovement(Vector3 target)
@@ -100,7 +99,6 @@ public abstract class MCharacterController : MonoBehaviour
 
     protected void ControllerEndTurn()
     {
-        Debug.Log(name + " ends turn!");
         GameManager.Instance.OnEntityTurnEnd(character);
     }
 }

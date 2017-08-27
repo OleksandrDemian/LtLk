@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void OnObjectDisabled(GameObject target);
+
 public interface IPoolable {
     GameObject GetGameObject {
         get;
@@ -13,6 +15,8 @@ public class ObjectPool : MonoBehaviour
     private GameObject[] prefs;
 
     private List<IPoolable> poolable;
+
+    public event OnObjectDisabled onObjectDisabled;
 
     public static ObjectPool Instance
     {
@@ -28,6 +32,8 @@ public class ObjectPool : MonoBehaviour
     public static void Add(IPoolable obj)
     {
         obj.GetGameObject.SetActive(false);
+        if(Instance.onObjectDisabled != null)
+            Instance.onObjectDisabled(obj.GetGameObject);
         Instance.poolable.Add(obj);
     }
 

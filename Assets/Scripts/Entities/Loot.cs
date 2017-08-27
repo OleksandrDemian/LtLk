@@ -48,7 +48,7 @@ public class Loot : Entity
         }
 
         InformationWindow.ShowInformation("Loot", msg);
-        gameObject.SetActive(false);
+        DisableEntity();
     }
 
     public override void ShowInfo()

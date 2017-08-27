@@ -60,6 +60,7 @@ public class GameManager : MonoBehaviour, IEventListener
             yield return new WaitForSeconds(1);
         }
         HistoryTracer.Instance.AddToHistory("Game started");
+        Quest.Instance.ShowQuest();
         entities.NextEntityUpdate();
     }
 

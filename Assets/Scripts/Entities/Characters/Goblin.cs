@@ -5,7 +5,7 @@
 /// </summary>
 public class Goblin : Character
 {
-    private int avoidDamageProbability = 35;
+    private int avoidDamageProbability = 30;
 
     public override void InitializeAttributes()
     {

@@ -287,6 +287,6 @@ public class Player : MCharacterController
             character.GetStamina().IncreaseDefaultValue(incStamina);
         }
 
-        InformationWindow.ShowInformation("Train result", msg);
+        InformationWindow.ShowInformation("Train result", msg, false);
     }
 }

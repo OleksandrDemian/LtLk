@@ -24,6 +24,11 @@ public class InformationWindow : MonoBehaviour, IPoolable
         });
     }
 
+    public static void ShowInformation(string title, string body, bool isEvent)
+    {
+        ShowInformation(title, body, isEvent, "default");
+    }
+
     public static void ShowInformation(string title, string body, bool isEvent, string tag)
     {
         if (isEvent)

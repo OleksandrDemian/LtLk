@@ -1,11 +1,19 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour
+public abstract class Entity : MonoBehaviour, IPoolable
 {
     protected Node currentNode;
     protected int x;
     protected int y;
+
+    public GameObject GetGameObject
+    {
+        get
+        {
+            return gameObject;
+        }
+    }
 
     public virtual void OnGameStart()
     {
@@ -15,15 +23,11 @@ public abstract class Entity : MonoBehaviour
         currentNode.SetEntity(this);
     }
 
-    protected virtual void OnDisable()
-    {
-        DisableEntity();
-    }
-
     protected void DisableEntity()
     {
         currentNode.ReleaseEntity();
         EntitiesManager.Instance.RemoveEntity(this);
+        ObjectPool.Add(this);
         Debug.Log(name + " is disabled!");
     }
 

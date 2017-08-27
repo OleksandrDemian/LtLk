@@ -34,7 +34,7 @@ public class Shop : Entity
             }
             else
             {
-                InformationWindow.ShowInformation("No money", "You are to poor to pay for health potion!");
+                InformationWindow.ShowInformation("No money", "You are to poor to pay for health potion!", false);
             }
         });
 
@@ -48,7 +48,7 @@ public class Shop : Entity
             }
             else
             {
-                InformationWindow.ShowInformation("No money", "You are to poor to pay for stamina potion!");
+                InformationWindow.ShowInformation("No money", "You are to poor to pay for stamina potion!", false);
             }
         });
 
@@ -63,7 +63,7 @@ public class Shop : Entity
             }
             else
             {
-                InformationWindow.ShowInformation("No money", "You are to poor to pay for new equipment potion!");
+                InformationWindow.ShowInformation("No money", "You are to poor to pay for new equipment potion!", false);
             }
         });
 

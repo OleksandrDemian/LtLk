@@ -38,7 +38,7 @@
     {
         if (!actor.GetGold().Get(gold))
         {
-            InformationWindow.ShowInformation("No money", "You are to poor!");
+            InformationWindow.ShowInformation("No money", "You are to poor!", false);
             return;
         }
 
@@ -47,6 +47,10 @@
         {
             //Not sure about this decision
             Player.Instance.Training(5);
+        }
+        else
+        {
+            InformationWindow.ShowInformation("Void", "Nothing happend", false);
         }
     }
 

@@ -148,7 +148,7 @@ public class Character : Entity
             return;
 
         controller.OnCharacterDead();
-        gameObject.SetActive(false);
+        DisableEntity();
     }
 
     protected void MoveToNode(Node node)
@@ -182,6 +182,7 @@ public class Character : Entity
     public virtual void ApplyDamage(int amount, Character actor)
     {
         HistoryTracer.Instance.AddToHistory(actor.name + ">>" + name + ": " + amount);
+        PopUp.Show(transform.position, amount.ToString());
         health.Value -= amount;
     }
 

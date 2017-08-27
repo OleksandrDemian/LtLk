@@ -27,7 +27,7 @@ public class Castle : Entity
             }
             else
             {
-                InformationWindow.ShowInformation("No money", "You are to poor to pay for training!");
+                InformationWindow.ShowInformation("No money", "You are to poor to pay for training!", false);
             }
         });
 
@@ -43,7 +43,7 @@ public class Castle : Entity
             }
             else
             {
-                InformationWindow.ShowInformation("No money", "You are to poor to pay for training!");
+                InformationWindow.ShowInformation("No money", "You are to poor to pay for training!", false);
             }
         });
 

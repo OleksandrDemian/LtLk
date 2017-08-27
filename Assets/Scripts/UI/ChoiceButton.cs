@@ -23,8 +23,10 @@ public class ChoiceButton : MonoBehaviour
         Button btn = GetComponent<Button>();
         btn.onClick.RemoveAllListeners();
 
-        btn.onClick.AddListener(choice.Trigger);
-        btn.onClick.AddListener(window.Close);
+        if(choice.HasTrigger())
+            btn.onClick.AddListener(choice.Trigger);
+        else
+            btn.onClick.AddListener(window.Close);
     }
 
     public void Enable(bool action)

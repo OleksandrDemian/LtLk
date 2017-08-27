@@ -93,4 +93,11 @@ public abstract class Entity : MonoBehaviour
         }
         return false;
     }
+
+    public static bool IsPlayer(Entity entity)
+    {
+        if (Player.Instance.GetCharacter() == entity)
+            return true;
+        return false;
+    }
 }

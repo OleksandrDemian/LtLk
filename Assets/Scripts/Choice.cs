@@ -21,4 +21,9 @@
             onTrigger();
         }
     }
+
+    public bool HasTrigger()
+    {
+        return onTrigger == null ? false : true;
+    }
 }

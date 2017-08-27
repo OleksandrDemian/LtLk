@@ -30,10 +30,10 @@ public class Knight : Character
 
     public override void ApplyDamage(int amount, Character actor)
     {
-        if(stamina.Value < 1)
-            health.Value -= amount;
+        if (stamina.Value < 1)
+            base.ApplyDamage(amount, actor);
         else if (!Success(blockAttackProbability, name + " blocks attack"))
-            health.Value -= amount;
+            base.ApplyDamage(amount, actor);
 
         stamina.Value--;
     }

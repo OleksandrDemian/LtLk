@@ -4,6 +4,9 @@ using UnityEngine;
 [RequireComponent(typeof(ObjectPool))]
 public class GameManager : MonoBehaviour, IEventListener
 {
+    [SerializeField]
+    private Texture2D mapTexture;
+
     public static GameManager Instance
     {
         get;
@@ -18,7 +21,12 @@ public class GameManager : MonoBehaviour, IEventListener
     private void Awake()
     {
         Instance = this;
-        map = new MapManager(15, 15);
+
+        if (mapTexture == null)
+            map = new MapManager(15, 15);
+        else
+            map = new MapManager(mapTexture);
+
         entities = new EntitiesManager();
     }
 

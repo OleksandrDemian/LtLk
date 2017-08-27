@@ -63,7 +63,7 @@ public class Thief : Character
             int gold = UnityEngine.Random.Range(2, 5);
             
             //Double gold near cities etc
-            if (HasAsNearby(typeof(Building)))
+            if (HasAsNearby(typeof(Shop)))
                 gold *= 2;
 
             Toast.ShowToast("You have found " + gold + " gold!", 1);

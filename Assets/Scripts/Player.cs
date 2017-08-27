@@ -185,7 +185,7 @@ public class Player : MCharacterController
         if (target is Character)
         {
             Character c = target as Character;
-            if (!c.IsPlayer)
+            if (!c.IsPlayer())
             {
                 character.Attack(c);
             }

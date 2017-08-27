@@ -8,13 +8,17 @@
 
 public class Node
 {
-    private bool isWalkable;
     private Entity entity;
     private LandscapeType landscape;
 
-    public Node(bool isWalkable)
+    public Node()
     {
-        this.isWalkable = isWalkable;
+        entity = null;
+    }
+
+    public Node(LandscapeType type)
+    {
+        landscape = type;
         entity = null;
     }
 
@@ -22,7 +26,7 @@ public class Node
     {
         get
         {
-            return isWalkable;
+            return landscape == LandscapeType.MOUNTAIN ? false : true;
         }
     }
 

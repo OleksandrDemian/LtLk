@@ -7,12 +7,10 @@
 
     public override void Interact(Entity actor)
     {
-        Character c = actor as Character;
-        if (c == null)
+        if (!IsPlayer(actor))
             return;
 
-        if (!c.IsPlayer)
-            return;
+        Character c = actor as Character;
 
         Choice[] choices = new Choice[5];
         choices[0] = new Choice("Offer 10", delegate()
@@ -31,10 +29,8 @@
         {
             Pray(500, c);
         });
-        choices[4] = new Choice("Go away", delegate ()
-        {
-            return;
-        });
+
+        choices[4] = new Choice("Go away", null);
         ChoiceWindow.Open("Sanctuary", "You are in front of a sanctuary. Try to donnate something and maybe gods will give you something back", choices);
     }
 

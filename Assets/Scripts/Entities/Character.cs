@@ -249,9 +249,9 @@ public class Character : Entity
         this.isPlayer = isPlayer;
     }
 
-    public bool IsPlayer
+    public bool IsPlayer()
     {
-        get { return isPlayer; }
+        return isPlayer;
     }
 
     public void Attack(Character target)

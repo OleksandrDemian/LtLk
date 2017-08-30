@@ -1,6 +1,6 @@
 fileFormatVersion: 2
 guid: 8a2b7535879c5b64d86a65547ec14187
-timeCreated: 1503825956
+timeCreated: 1504120866
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName:
@@ -226,7 +226,7 @@ TextureImporter:
     21300438: 16x16_Jerom_CC-BY-SA-3.0_219
     21300440: 16x16_Jerom_CC-BY-SA-3.0_220
     21300442: 16x16_Jerom_CC-BY-SA-3.0_221
-    21300444: 16x16_Jerom_CC-BY-SA-3.0_222
+    21300444: Skeleton
     21300446: 16x16_Jerom_CC-BY-SA-3.0_223
     21300448: 16x16_Jerom_CC-BY-SA-3.0_224
     21300450: 16x16_Jerom_CC-BY-SA-3.0_225
@@ -3244,7 +3244,7 @@ TextureImporter:
       outline: []
       tessellationDetail: 0
     - serializedVersion: 2
-      name: 16x16_Jerom_CC-BY-SA-3.0_222
+      name: Skeleton
       rect:
         serializedVersion: 2
         x: 32

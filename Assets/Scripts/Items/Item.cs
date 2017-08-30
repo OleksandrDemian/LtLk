@@ -1,6 +1,11 @@
-﻿public class Item
+﻿using UnityEngine;
+
+[System.Serializable]
+public class Item
 {
+    [SerializeField]
     protected string name;
+    [SerializeField]
     protected int qty = 0;
 
     protected virtual int Value

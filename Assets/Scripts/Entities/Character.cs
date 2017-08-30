@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 
+public delegate void CharacterEvent();
+
 public class Character : Entity
 {
     protected Attribute health;
@@ -10,11 +12,17 @@ public class Character : Entity
     protected Inventory inventory;
     protected MCharacterController controller;
 
-    public override void OnGameStart()
+    public event CharacterEvent onCharacterDeath;
+
+    public override void Initialize()
     {
-        base.OnGameStart();
+        base.Initialize();
         inventory = new Inventory();
         controller = GetComponent<MCharacterController>();
+        if (controller == null)
+        {
+            controller = gameObject.AddComponent<Enemy>();
+        }
         controller.Initialize(this);
     }
 
@@ -148,6 +156,8 @@ public class Character : Entity
             return;
 
         controller.OnCharacterDead();
+        if (onCharacterDeath != null)
+            onCharacterDeath();
         DisableEntity();
     }
 
@@ -266,6 +276,8 @@ public class Character : Entity
         }
 
         OnAttackDone(target);
+        if (!target.IsAlive())
+            OnCharacterKilled(target);
 
         Debug.Log(name + " >> " + target.name + ": " + damage);
         Vector3 animationDirection = (target.transform.position - transform.position)/3;
@@ -275,6 +287,12 @@ public class Character : Entity
     protected virtual void OnCharacterMoved()
     {
         stamina.Value--;
+    }
+
+    protected virtual void OnCharacterKilled(Character victim)
+    {
+        int gold = victim.GetGold().GetQty();
+        GetGold().AddQty(gold);
     }
 
     protected virtual void OnAttackDone(Character victim)

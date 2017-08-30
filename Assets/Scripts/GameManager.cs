@@ -48,7 +48,7 @@ public class GameManager : MonoBehaviour, IEventListener
         for (int i = 0; i < entities.Length; i++)
         {
             this.entities.AddEntity(entities[i]);
-            entities[i].OnGameStart();
+            entities[i].Initialize();
         }
     }
 
@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour, IEventListener
     public void OnEntityTurnEnd(Entity entity)
     {
         //entities.NextEntityUpdate();
-        StartCoroutine(NextEntity());
+        //StartCoroutine(NextEntity());
+        eventsManager.Next();
     }
 
     private IEnumerator NextEntity()
@@ -96,7 +97,7 @@ public class GameManager : MonoBehaviour, IEventListener
     public void OnEventsEnd()
     {
         eventsManager.ResetEvents();
-        entities.NextEntityUpdate();
+        StartCoroutine(NextEntity());
     }
 
     public int GetCurrentTurn()

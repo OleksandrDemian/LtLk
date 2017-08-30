@@ -2,9 +2,6 @@
 
 public class Enemy : MCharacterController
 {
-    [SerializeField]
-    private bool isAggressive = true;
-
     public override void Initialize(Character character)
     {
         base.Initialize(character);
@@ -55,9 +52,6 @@ public class Enemy : MCharacterController
 
     private bool CheckPlayer()
     {
-        if (!isAggressive)
-            return false;
-        
         Character player = Player.Instance.GetCharacter();
         
         int distance = character.Distance(player);

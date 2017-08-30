@@ -6,8 +6,11 @@ public abstract class Quest : MonoBehaviour
     protected string title;
     [SerializeField][TextArea]
     protected string description;
-
-    protected bool done = false;
+    [SerializeField]
+    [TextArea]
+    protected string doneText;
+    [SerializeField]
+    protected Item[] items;
 
     public static Quest Instance
     {
@@ -15,18 +18,47 @@ public abstract class Quest : MonoBehaviour
         private set;
     }
 
+    private void Awake()
+    {
+        Instance = this;
+        Initialize();
+    }
+
     public void ShowQuest()
     {
         InformationWindow.ShowInformation(title, description, false);
     }
 
-    protected virtual void Awake()
+    public abstract bool Check();
+    public abstract void Initialize();
+
+    public string GetDoneText()
     {
-        Instance = this;
+        return doneText;
     }
 
-    public virtual bool Check()
+    protected void OnQuestDone()
     {
-        return done;
+        string loot = "\n";
+        Inventory inv = Player.Instance.GetCharacter().GetInventory();
+        int size = items.Length;
+        for (int i = 0; i < size; i++)
+        {
+            Item item = items[i];
+            inv.AddItem(item);
+            loot += item.GetName() + " " + item.GetQty() + ";\n";
+        }
+
+        InformationWindow.ShowInformation(title, doneText + loot, false);
+    }
+
+    public string GetTitle()
+    {
+        return title;
+    }
+
+    public string GetDescription()
+    {
+        return description;
     }
 }

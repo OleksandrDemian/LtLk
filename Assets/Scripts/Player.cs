@@ -272,19 +272,19 @@ public class Player : MCharacterController
         {
             incHealth = (int)(incHealth * mod);
             msg += "Your health rised up by " + incHealth + " points!\n";
-            character.GetHealth().IncreaseDefaultValue(incHealth);
+            character.GetHealth().IncreaseMaxValue(incHealth);
         }
         if (incDamage > 0)
         {
             incDamage = (int)(incDamage * mod);
             msg += "Your damage rised up by " + incDamage + " points!\n";
-            character.GetDamage().IncreaseDefaultValue(incDamage);
+            character.GetDamage().IncreaseMaxValue(incDamage);
         }
         if (incStamina > 0)
         {
             incStamina = (int)(incStamina * mod);
             msg += "Your stamina rised up by " + incStamina + " points!";
-            character.GetStamina().IncreaseDefaultValue(incStamina);
+            character.GetStamina().IncreaseMaxValue(incStamina);
         }
 
         InformationWindow.ShowInformation("Train result", msg, false);

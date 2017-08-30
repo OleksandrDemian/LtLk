@@ -74,4 +74,27 @@ public class ObjectPool : MonoBehaviour
         }
         throw new System.Exception("There is no " + name);
     }
+
+    public static GameObject Get(string name, bool newObj)
+    {
+        if (!newObj)
+        {
+            for (int i = 0; i < Instance.poolable.Count; i++)
+            {
+                if (Instance.poolable[i].GetGameObject.name.ToLower() == name.ToLower())
+                {
+                    GameObject obj = Instance.poolable[i].GetGameObject;
+                    obj.SetActive(true);
+                    return obj;
+                }
+            }
+        }
+
+        for (int i = 0; i < Instance.prefs.Length; i++)
+        {
+            if (Instance.prefs[i].name.ToLower() == name.ToLower())
+                return Instantiate(Instance.prefs[i]);
+        }
+        throw new System.Exception("There is no " + name);
+    }
 }

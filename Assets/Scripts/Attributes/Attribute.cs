@@ -81,9 +81,9 @@ public class Attribute
         //defaultValue = value;
     }
 
-    public void IncreaseDefaultValue(int amount)
+    public void IncreaseMaxValue(int amount)
     {
-        int target = defaultValue + amount;
+        int target = maxValue + amount;
         SetMax(target);
     }
 

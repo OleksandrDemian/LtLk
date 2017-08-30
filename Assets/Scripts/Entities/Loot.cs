@@ -42,7 +42,7 @@ public class Loot : Entity
         {
             int amount = Random.Range(1, 4);
             Attribute damage = cActor.GetDamage();
-            damage.IncreaseDefaultValue(amount);
+            damage.IncreaseMaxValue(amount);
             damage.ResetValue();
             msg += "Better equipment (+" + amount + " to damage)";
         }

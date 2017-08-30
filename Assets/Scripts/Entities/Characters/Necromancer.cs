@@ -44,14 +44,15 @@ public class Necromancer : Character
         //Creates bone shield
         if (Success(createBoneShieldProbability, name + " creates bone shield"))
             boneShields++;
+    }
 
-        if (!victim.IsAlive())
-        {
-            //Restore stamina
-            stamina.ResetValue();
-            //Increment damage modifier
-            damageModifier += 2;
-        }
+    protected override void OnCharacterKilled(Character victim)
+    {
+        base.OnCharacterKilled(victim);
+        //Restore stamina
+        stamina.ResetValue();
+        //Increment damage modifier
+        damageModifier += 2;
     }
 
     private void InteractWithSkeleton(Skeleton actor)

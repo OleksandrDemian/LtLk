@@ -1,22 +1,18 @@
 ﻿using UnityEngine;
 
+//[CreateAssetMenu(fileName = "KillEnemyQuest", menuName = "Quest/Kill enemy quest")]
 public class KillEnemyQuest : Quest
 {
     [SerializeField]
-    private GameObject target;
+    private Character target;
 
-    private void Start()
+    public override bool Check()
     {
-        ObjectPool.Instance.onObjectDisabled += Listener;
+        return !target.IsAlive();
     }
 
-    private void Listener(GameObject obj)
+    public override void Initialize()
     {
-        if (target == obj)
-        {
-            InformationWindow.ShowInformation("Quest", title + " done!", false);
-            done = true;
-            ObjectPool.Instance.onObjectDisabled -= Listener;
-        }
+        target.onCharacterDeath += OnQuestDone;
     }
 }

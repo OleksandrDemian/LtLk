@@ -15,12 +15,19 @@ public abstract class Entity : MonoBehaviour, IPoolable
         }
     }
 
-    public virtual void OnGameStart()
+    public virtual void Initialize()
     {
         x = (int)transform.position.x;
         y = (int)transform.position.z;
         currentNode = MapManager.Instance.GetNode(X, Y);
         currentNode.SetEntity(this);
+    }
+
+    public void Initialize(int x, int y)
+    {
+        transform.position = new Vector3(x, .2f, y);
+        EntitiesManager.Instance.AddEntity(this);
+        Initialize();
     }
 
     protected void DisableEntity()
@@ -96,6 +103,20 @@ public abstract class Entity : MonoBehaviour, IPoolable
                 return true;
         }
         return false;
+    }
+
+    public Entity GetNearby<T>()
+    {
+        List<Node> nodes = MapManager.Instance.GetAllAdjacentNodes(X, Y);
+        for (int i = 0; i < nodes.Count; i++)
+        {
+            if (!nodes[i].HasEntity())
+                continue;
+
+            if (nodes[i].GetEntity().GetType() == typeof(T))
+                return nodes[i].GetEntity();
+        }
+        return null;
     }
 
     public static bool IsPlayer(Entity entity)

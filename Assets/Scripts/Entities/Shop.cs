@@ -58,7 +58,7 @@ public class Shop : Entity
             if (gold.Get(equipmentCost))
             {
                 Attribute damage = Player.Instance.GetCharacter().GetDamage();
-                damage.IncreaseDefaultValue(equipmentQuality);
+                damage.IncreaseMaxValue(equipmentQuality);
                 damage.ResetValue();
             }
             else

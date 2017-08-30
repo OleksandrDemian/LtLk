@@ -6,10 +6,10 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{0720C3A4-0D9B-A061-00E3-9E5C7947CD09}</ProjectGuid>
+    <ProjectGuid>{B5A7F60C-D596-E49C-F1C9-0B1F98589765}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <AssemblyName>Assembly-CSharp</AssemblyName>
+    <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <BaseDirectory>Assets</BaseDirectory>
@@ -46,95 +46,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Antialiasing.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Bloom.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\BloomAndFlares.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\BloomOptimized.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Blur.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\BlurOptimized.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\CameraMotionBlur.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ColorCorrectionCurves.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ColorCorrectionLookup.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ColorCorrectionRamp.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ContrastEnhance.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ContrastStretch.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\CreaseShading.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\DepthOfField.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\DepthOfFieldDeprecated.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\EdgeDetection.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Fisheye.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\GlobalFog.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Grayscale.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ImageEffectBase.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ImageEffects.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\MotionBlur.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\NoiseAndGrain.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\NoiseAndScratches.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\PostEffectsBase.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\PostEffectsHelper.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Quads.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ScreenOverlay.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ScreenSpaceAmbientObscurance.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\ScreenSpaceAmbientOcclusion.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\SepiaTone.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\SunShafts.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\TiltShift.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Tonemapping.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Triangles.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Twirl.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\VignetteAndChromaticAberration.cs" />
-     <Compile Include="Assets\CameraEffects\ImageEffects\Scripts\Vortex.cs" />
-     <Compile Include="Assets\Scripts\Abilities\AbilityBase.cs" />
-     <Compile Include="Assets\Scripts\Attributes\Attribute.cs" />
-     <Compile Include="Assets\Scripts\Attributes\AttributeModifier.cs" />
-     <Compile Include="Assets\Scripts\BattleManager.cs" />
-     <Compile Include="Assets\Scripts\CameraController.cs" />
-     <Compile Include="Assets\Scripts\Choice.cs" />
-     <Compile Include="Assets\Scripts\Enemy.cs" />
-     <Compile Include="Assets\Scripts\Entities\Camp.cs" />
-     <Compile Include="Assets\Scripts\Entities\Castle.cs" />
-     <Compile Include="Assets\Scripts\Entities\Character.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Barbarian.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Goblin.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Knight.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Necromancer.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Ninja.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Orc.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\OverLord.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Skeleton.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Thief.cs" />
-     <Compile Include="Assets\Scripts\Entities\Characters\Zombie.cs" />
-     <Compile Include="Assets\Scripts\Entities\Entity.cs" />
-     <Compile Include="Assets\Scripts\Entities\Loot.cs" />
-     <Compile Include="Assets\Scripts\Entities\Sanctuary.cs" />
-     <Compile Include="Assets\Scripts\Entities\Shop.cs" />
-     <Compile Include="Assets\Scripts\EntitiesManager.cs" />
-     <Compile Include="Assets\Scripts\Events\Event.cs" />
-     <Compile Include="Assets\Scripts\Events\EventsManager.cs" />
-     <Compile Include="Assets\Scripts\Events\IEventListener.cs" />
-     <Compile Include="Assets\Scripts\GameManager.cs" />
-     <Compile Include="Assets\Scripts\Items\EItem.cs" />
-     <Compile Include="Assets\Scripts\Items\Inventory.cs" />
-     <Compile Include="Assets\Scripts\Items\Item.cs" />
-     <Compile Include="Assets\Scripts\LobbyManager.cs" />
-     <Compile Include="Assets\Scripts\MCharacterController.cs" />
-     <Compile Include="Assets\Scripts\Map\MapManager.cs" />
-     <Compile Include="Assets\Scripts\Map\Node.cs" />
-     <Compile Include="Assets\Scripts\ObjectPool.cs" />
-     <Compile Include="Assets\Scripts\Player.cs" />
-     <Compile Include="Assets\Scripts\PlayerSpawner.cs" />
-     <Compile Include="Assets\Scripts\Quests\KillEnemyQuest.cs" />
-     <Compile Include="Assets\Scripts\Quests\Quest.cs" />
-     <Compile Include="Assets\Scripts\SceneLoader.cs" />
-     <Compile Include="Assets\Scripts\UI\CharacterInfoWindow.cs" />
-     <Compile Include="Assets\Scripts\UI\ChoiceButton.cs" />
-     <Compile Include="Assets\Scripts\UI\ChoiceWindow.cs" />
-     <Compile Include="Assets\Scripts\UI\HistoryTracer.cs" />
-     <Compile Include="Assets\Scripts\UI\InformationWindow.cs" />
-     <Compile Include="Assets\Scripts\UI\PlayerHUD.cs" />
-     <Compile Include="Assets\Scripts\UI\PopUp.cs" />
-     <Compile Include="Assets\Scripts\UI\Toast.cs" />
-     <Compile Include="Assets\Scripts\XML\XmlReader.cs" />
+     <Compile Include="Assets\Scripts\Editor\MapEditor.cs" />
      <None Include="Assets\CameraEffects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\NoiseEffectShaderRGB.shader" />
@@ -213,24 +125,67 @@
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_Antialiasing\FXAAPreset2.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_BloomAndFlares\BlurAndFlares.shader" />
      <None Include="Assets\CameraEffects\ImageEffects\Shaders\_BloomAndFlares\BlendForBloom.shader" />
+ <Reference Include="UnityEditor.Advertisements">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
+ </Reference>
+ <Reference Include="nunit.framework">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/nunit.framework.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.EditorTestsRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/EditorTestsRunner/Editor/UnityEditor.EditorTestsRunner.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.UI">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.UI">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/GUISystem/Editor/UnityEditor.UI.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Networking">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/UnityEngine.Networking.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.Networking">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/Networking/Editor/UnityEditor.Networking.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.PlaymodeTestsRunner">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/Editor/UnityEditor.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.PlaymodeTestsRunner">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/PlaymodeTestsRunner/UnityEngine.PlaymodeTestsRunner.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.TreeEditor">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/TreeEditor/Editor/UnityEditor.TreeEditor.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.Analytics">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.Analytics">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityAnalytics/Editor/UnityEditor.Analytics.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.HoloLens">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/Editor/UnityEditor.HoloLens.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEngine.HoloLens">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityHoloLens/RuntimeEditor/UnityEngine.HoloLens.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.VR">
+ <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/Editor/UnityEditor.VR.dll</HintPath>
  </Reference>
  <Reference Include="UnityEngine.VR">
  <HintPath>C:/Program Files/Unity/Editor/Data/UnityExtensions/Unity/UnityVR/RuntimeEditor/UnityEngine.VR.dll</HintPath>
  </Reference>
+ <Reference Include="UnityEditor.Graphs">
+ <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEditor.Graphs.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.Android.Extensions">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll</HintPath>
+ </Reference>
+ <Reference Include="UnityEditor.WindowsStandalone.Extensions">
+ <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/windowsstandalonesupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
+ </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Assembly-CSharp.csproj">
+      <Project>{0720C3A4-0D9B-A061-00E3-9E5C7947CD09}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
